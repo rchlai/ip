@@ -1,10 +1,6 @@
-import java.sql.Array;
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
-import org.w3c.dom.ls.LSInput;
-
-public class RC_app {
+public class RCApp {
     public static void chatWithBot() {
         Scanner input = new Scanner(System.in);
         String line;
