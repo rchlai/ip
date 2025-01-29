@@ -8,7 +8,6 @@ public class RC_app {
     public static void chatWithBot() {
         Scanner input = new Scanner(System.in);
         String line;
-        int markIndex;
         Task[] tasks = new Task[100];
         int taskCount = 0;
 
@@ -25,11 +24,16 @@ public class RC_app {
                     System.out.println((i + 1) + "." + "[" + tasks[i].getStatusIcon() + "] " + tasks[i].getDescription()); // displays as 1.[X] read book and so on
                 }
                 System.out.println(); // create an empty line to avoid text clutter
-            } else if(line.contains("mark")) {
-                markIndex = Integer.parseInt(line.replaceAll("[^0-9]", "")); // extracts digits from string to be converted into integer type
-                tasks[markIndex - 1].markAsDone(); // use markIndex to mark selected task from Task[] as done
-                System.out.println("Nice! I've marked this task as done:");
+            } else if(line.startsWith("mark")) {
+                int markIndex = Integer.parseInt(line.replaceAll("[^0-9]", "")); // extracts digits from string to be converted into integer type
+                tasks[markIndex - 1].markAsDone(); // use markIndex to mark task from Task[] as done
+                System.out.println("Good job! I'll mark this task as done:");
                 System.out.println(markIndex + "." + "[" + tasks[markIndex - 1].getStatusIcon() + "] " + tasks[markIndex - 1].getDescription() + "\n"); // displays marked task
+            } else if(line.startsWith("unmark")) {
+                int unmarkIndex = Integer.parseInt(line.replaceAll("[^0-9]", ""));
+                tasks[unmarkIndex - 1].markAsNotDone(); // use unmarkIndex to mark task from Task[] as not done
+                System.out.println("Noted, I've marked this task as not done yet:");
+                System.out.println(unmarkIndex + "." + "[" + tasks[unmarkIndex - 1].getStatusIcon() + "] " + tasks[unmarkIndex - 1].getDescription() + "\n"); // displays unmarked task
             } else {
                 Task t = new Task(line); // create a new Task instance
                 System.out.println("RC added: " + t.getDescription() + "\n");
