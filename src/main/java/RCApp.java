@@ -16,44 +16,36 @@ public class RCApp {
             if (line.equals("list")) {
                 System.out.println("Here are the tasks in your list:");
                 printAllTasks();
-                // create an empty line to avoid text clutter
                 addLineSeparator();
-            } else if (line.startsWith("mark")) {
-                // extracts digits from string to be converted into integer type
-                int markIndex = Integer.parseInt(line.replaceAll("[^0-9]", ""));
-                // use markIndex to mark task from Task[] as done
-                tasks[markIndex - 1].markAsDone();
-                System.out.println("Good job! I'll mark this task as done:");
-                // displays marked task
-                System.out.println(markIndex + "." + "[" + tasks[markIndex - 1].getStatusIcon()
-                        + "] " + tasks[markIndex - 1].getDescription());
-                addLineSeparator();
-            } else if (line.startsWith("unmark")) {
-                int unmarkIndex = Integer.parseInt(line.replaceAll("[^0-9]", ""));
-                // use unmarkIndex to mark task from Task[] as not done
-                tasks[unmarkIndex - 1].markAsNotDone();
-                System.out.println("Noted, I've marked this task as not done yet:");
-                // displays unmarked task
-                System.out.println(unmarkIndex + "." + "[" + tasks[unmarkIndex - 1].getStatusIcon()
-                        + "] " + tasks[unmarkIndex - 1].getDescription());
-                addLineSeparator();
-            } else if (line.equals("bye")) {
-                break;
-            } else {
-                // create a new Task instance
-                Task t = new Task(line);
-                System.out.println("RC added: " + t);
-                addTask(t);
-                addLineSeparator();
+                continue;
             }
+
+            if (line.startsWith("mark")) {
+                markTask(line);
+                addLineSeparator();
+                continue;
+            }
+
+            if (line.startsWith("unmark")) {
+                unmarkTask(line);
+                addLineSeparator();
+                continue;
+            }
+            
+            if (line.equals("bye")) {
+                break;
+            }
+
+            // create a new Task instance
+            Task t = new Task(line);
+            addTask(t);
+            System.out.println("This task has been added: " +  "\n" + t);
+            displayNumOfTasks();
+            addLineSeparator();
         };
 
         addLineSeparator();
         printFarewellMessage();
-    }
-
-    public static void addLineSeparator() {
-        System.out.println("============================================");
     }
 
     public static void printWelcomeMessage() {
@@ -63,6 +55,11 @@ public class RCApp {
 
     public static void printFarewellMessage() {
         System.out.println("Goodbye. Hope I satisfy your needs for today!");
+    }
+
+    public static void addLineSeparator() {
+        // print a line separator to avoid text clutter
+        System.out.println("============================================");
     }
 
     public static void printChatbotLogo() {
@@ -81,11 +78,34 @@ public class RCApp {
         taskCount++;
     }
 
+    public static void displayNumOfTasks() {
+        System.out.println("You have " + taskCount + " task(s) in the list");
+    }
+
     public static void printAllTasks() {
         for (int i = 0; i < taskCount; i++) {
             // displays as 1.[X] <description> and so on
             System.out.println((i + 1) + "." + tasks[i]);
         }
+    }
+
+    private static void unmarkTask(String line) {
+        int unmarkIndex = Integer.parseInt(line.replaceAll("[^0-9]", ""));
+        // use unmarkIndex to mark task from Task[] as not done
+        tasks[unmarkIndex - 1].markAsNotDone();
+        System.out.println("Noted, I've marked this task as not done yet:");
+        // displays unmarked task
+        System.out.println(unmarkIndex + "." + tasks[unmarkIndex - 1]);
+    }
+
+    private static void markTask(String line) {
+        // extracts digits from string to be converted into integer type
+        int markIndex = Integer.parseInt(line.replaceAll("[^0-9]", ""));
+        // use markIndex to mark task from Task[] as done
+        tasks[markIndex - 1].markAsDone();
+        System.out.println("Good job! I'll mark this task as done:");
+        // displays marked task
+        System.out.println(markIndex + "." + tasks[markIndex - 1]);
     }
 
     public static void main(String[] args) {
