@@ -15,13 +15,9 @@ public class RCApp {
 
             if (line.equals("list")) {
                 System.out.println("Here are the tasks in your list:");
-                for (int i = 0; i < taskCount; i++) {
-                    // displays as 1.[X] read book and so on
-                    System.out.println((i + 1) + "." + "[" + tasks[i].getStatusIcon()
-                            + "] " + tasks[i].getDescription());
-                }
+                printAllTasks();
                 // create an empty line to avoid text clutter
-                System.out.println();
+                addLineSeparator();
             } else if (line.startsWith("mark")) {
                 // extracts digits from string to be converted into integer type
                 int markIndex = Integer.parseInt(line.replaceAll("[^0-9]", ""));
@@ -30,7 +26,8 @@ public class RCApp {
                 System.out.println("Good job! I'll mark this task as done:");
                 // displays marked task
                 System.out.println(markIndex + "." + "[" + tasks[markIndex - 1].getStatusIcon()
-                        + "] " + tasks[markIndex - 1].getDescription() + "\n");
+                        + "] " + tasks[markIndex - 1].getDescription());
+                addLineSeparator();
             } else if (line.startsWith("unmark")) {
                 int unmarkIndex = Integer.parseInt(line.replaceAll("[^0-9]", ""));
                 // use unmarkIndex to mark task from Task[] as not done
@@ -38,18 +35,25 @@ public class RCApp {
                 System.out.println("Noted, I've marked this task as not done yet:");
                 // displays unmarked task
                 System.out.println(unmarkIndex + "." + "[" + tasks[unmarkIndex - 1].getStatusIcon()
-                        + "] " + tasks[unmarkIndex - 1].getDescription() + "\n");
+                        + "] " + tasks[unmarkIndex - 1].getDescription());
+                addLineSeparator();
             } else if (line.equals("bye")) {
                 break;
             } else {
                 // create a new Task instance
                 Task t = new Task(line);
-                System.out.println("RC added: " + t.getDescription() + "\n");
+                System.out.println("RC added: " + t);
                 addTask(t);
+                addLineSeparator();
             }
         };
 
+        addLineSeparator();
         printFarewellMessage();
+    }
+
+    public static void addLineSeparator() {
+        System.out.println("============================================");
     }
 
     public static void printWelcomeMessage() {
@@ -75,6 +79,13 @@ public class RCApp {
     public static void addTask(Task t) {
         tasks[taskCount] = t;
         taskCount++;
+    }
+
+    public static void printAllTasks() {
+        for (int i = 0; i < taskCount; i++) {
+            // displays as 1.[X] <description> and so on
+            System.out.println((i + 1) + "." + tasks[i]);
+        }
     }
 
     public static void main(String[] args) {
