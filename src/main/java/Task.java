@@ -27,15 +27,6 @@ public class Task {
         isDone = false;
     }
 
-//    public void addTask() {
-//        this.texts[textCount] = this.description;
-//        textCount++;
-//    }
-//
-//    public void listTask() {
-//        System.out.println("RC added: " + getDescription() + "\n");
-//    }
-//
     @Override
     public String toString() {
         return "[" + getStatusIcon() + "] " + getDescription();

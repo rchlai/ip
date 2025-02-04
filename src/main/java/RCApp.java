@@ -6,6 +6,22 @@ public class RCApp {
     static int taskCount = 0;
 
     public static void chatWithBot() {
+        // prefix constants
+        final String BY_PREFIX = "/by";
+        final String FROM_PREFIX = "/from";
+        final String TO_PREFIX = "/to";
+        final String TO_DO_PREFIX = "todo";
+        final String DEADLINE_PREFIX = "deadline";
+        final String EVENT_PREFIX = "event";
+
+        String description;
+        String dueDate;
+        String start;
+        String end;
+        int indexOfByPrefix;
+        int indexOfFromPrefix;
+        int indexOfToPrefix;
+
         printWelcomeMessage();
 
         while (true) {
@@ -36,10 +52,38 @@ public class RCApp {
                 break;
             }
 
-            // create a new Task instance
-            Task t = new Task(line);
-            addTask(t);
-            System.out.println("This task has been added: " +  "\n" + t);
+            if (line.startsWith(TO_DO_PREFIX)) {
+                description = line.replace(TO_DO_PREFIX, "").trim();
+
+                ToDo td = new ToDo(description);
+                addTask(td);
+                System.out.println("This task has been added: " +  "\n" + td);
+            }
+
+            if (line.startsWith(DEADLINE_PREFIX)) {
+                indexOfByPrefix = line.indexOf(BY_PREFIX);
+
+                description = line.substring(0, indexOfByPrefix).replace(DEADLINE_PREFIX, "").trim();
+                dueDate = line.substring(indexOfByPrefix).replace("/by", "").trim();
+
+                Deadline d = new Deadline(description, dueDate);
+                addTask(d);
+                System.out.println("This task has been added: " +  "\n" + d);
+            }
+
+            if (line.startsWith(EVENT_PREFIX)) {
+                indexOfFromPrefix = line.indexOf("/from");
+                indexOfToPrefix = line.indexOf("/to");
+
+                description = line.substring(0, indexOfFromPrefix).replace(EVENT_PREFIX, "").trim();
+                start = line.substring(indexOfFromPrefix, indexOfToPrefix).replace(FROM_PREFIX, "").trim();
+                end = line.substring(indexOfToPrefix).replace(TO_PREFIX, "").trim();
+
+                Event e = new Event(description, start, end);
+                addTask(e);
+                System.out.println("This task has been added: " +  "\n" + e);
+            }
+
             displayNumOfTasks();
             addLineSeparator();
         };
