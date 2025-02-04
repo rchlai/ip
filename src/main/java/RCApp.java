@@ -1,19 +1,18 @@
 import java.util.Scanner;
 
 public class RCApp {
+    static Scanner input = new Scanner(System.in);
+    static Task[] tasks = new Task[100];
+    static int taskCount = 0;
+
     public static void chatWithBot() {
-        Scanner input = new Scanner(System.in);
-        String line;
-        Task[] tasks = new Task[100];
-        int taskCount = 0;
+        printWelcomeMessage();
 
-        System.out.println("Good day! I'm RC, your personal chatbot.");
-        System.out.println("You need my assistance today?\n");
+        while (true) {
+            // prompt user to write command
+            System.out.print("User says: ");
+            String line = input.nextLine();
 
-        System.out.print("User says: ");
-        line = input.nextLine();
-
-        while (!line.equals("bye")) {
             if (line.equals("list")) {
                 System.out.println("Here are the tasks in your list:");
                 for (int i = 0; i < taskCount; i++) {
@@ -40,32 +39,46 @@ public class RCApp {
                 // displays unmarked task
                 System.out.println(unmarkIndex + "." + "[" + tasks[unmarkIndex - 1].getStatusIcon()
                         + "] " + tasks[unmarkIndex - 1].getDescription() + "\n");
+            } else if (line.equals("bye")) {
+                break;
             } else {
                 // create a new Task instance
                 Task t = new Task(line);
                 System.out.println("RC added: " + t.getDescription() + "\n");
-                // prompt user to write next command
-                tasks[taskCount] = t;
-                taskCount++;
+                addTask(t);
             }
-
-            // prompt user to write next command
-            System.out.print("User says: ");
-            line = input.nextLine();
         };
 
-        System.out.println("Goodbye. Hope I satisfy your needs for today!");;
+        printFarewellMessage();
+    }
+
+    public static void printWelcomeMessage() {
+        System.out.println("Good day! I'm RC, your personal chatbot.");
+        System.out.println("You need my assistance today?\n");
+    }
+
+    public static void printFarewellMessage() {
+        System.out.println("Goodbye. Hope I satisfy your needs for today!");
+    }
+
+    public static void printChatbotLogo() {
+        String logo =
+                "______________\n"
+                        +"\\____  \\_  __ \\\n"
+                        +"|    _/    \\ \\/\n"
+                        +"|  |  \\     \\__\n"
+                        +"|__|__/\\______/\n";
+
+        System.out.println("Hello from\n" + logo);
+    }
+
+    public static void addTask(Task t) {
+        tasks[taskCount] = t;
+        taskCount++;
     }
 
     public static void main(String[] args) {
-        String logo =
-        "______________\n"
-        +"\\____  \\_  __ \\\n"
-        +"|    _/    \\ \\/\n"
-        +"|  |  \\     \\__\n"
-        +"|__|__/\\______/\n";
-
-        System.out.println("Hello from\n" + logo);
+        printChatbotLogo();
         chatWithBot();
     }
 }

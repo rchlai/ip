@@ -20,11 +20,11 @@ public class Task {
     }
 
     public void markAsDone() {
-        this.isDone = true;
+        isDone = true;
     }
 
     public void markAsNotDone() {
-        this.isDone = false;
+        isDone = false;
     }
 
 //    public void addTask() {
@@ -36,11 +36,8 @@ public class Task {
 //        System.out.println("RC added: " + getDescription() + "\n");
 //    }
 //
-//    public void listAllTasks() {
-//        System.out.println("Here are the tasks in your list:");
-//        for (int i = 0; i < textCount; i++) {
-//            // displays as 1.[X] read book and so on
-//            System.out.println((i + 1) + "." + "[" + getStatusIcon() + "] " + texts[i]);
-//        }
-//    }
+    @Override
+    public String toString() {
+        return "[" + getStatusIcon() + "] " + getDescription();
+    }
 }
