@@ -37,7 +37,7 @@ public class RCApp {
                 try {
                     markTask(line);
                 } catch (DukeException error) {
-                    System.out.println(error.getMessage());
+                    printErrorMessage(error);
                 } finally {
                     addLineSeparator();
                 }
@@ -48,7 +48,7 @@ public class RCApp {
                 try {
                     unmarkTask(line);
                 } catch (DukeException error) {
-                    System.out.println(error.getMessage());
+                    printErrorMessage(error);
                 } finally {
                     addLineSeparator();
                 }
@@ -93,6 +93,10 @@ public class RCApp {
 
     public static void addLineSeparator() {
         System.out.println("============================================");
+    }
+
+    public static void printErrorMessage(DukeException error) {
+        System.out.println(error.getMessage());
     }
 
     public static void addTask(Task t) throws DukeException {
@@ -205,7 +209,7 @@ public class RCApp {
         try {
             addTask(toDo);
         } catch (DukeException error) {
-            System.out.println(error.getMessage());
+            printErrorMessage(error);
         }
     }
 
@@ -223,7 +227,7 @@ public class RCApp {
         try {
             addTask(deadline);
         } catch (DukeException error) {
-            System.out.println(error.getMessage());
+            printErrorMessage(error);
         }
     }
 
@@ -245,7 +249,7 @@ public class RCApp {
         try {
             addTask(event);
         } catch (DukeException error) {
-            System.out.println(error.getMessage());
+            printErrorMessage(error);
         }
     }
 
