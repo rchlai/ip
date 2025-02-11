@@ -34,14 +34,24 @@ public class RCApp {
             }
 
             if (line.startsWith("mark")) {
-                markTask(line);
-                addLineSeparator();
+                try {
+                    markTask(line);
+                } catch (DukeException error) {
+                    System.out.println(error.getMessage());
+                } finally {
+                    addLineSeparator();
+                }
                 continue;
             }
 
             if (line.startsWith("unmark")) {
-                unmarkTask(line);
-                addLineSeparator();
+                try {
+                    unmarkTask(line);
+                } catch (DukeException error) {
+                    System.out.println(error.getMessage());
+                } finally {
+                    addLineSeparator();
+                }
                 continue;
             }
             
@@ -55,7 +65,7 @@ public class RCApp {
             // print number of tasks added
             displayNumOfTasks();
             addLineSeparator();
-        };
+        }
 
         addLineSeparator();
         printFarewellMessage();
@@ -87,7 +97,8 @@ public class RCApp {
 
     public static void addTask(Task t) throws DukeException {
         if (taskCount >= tasks.length) {
-            throw new DukeException("Maximum number of tasks recorded has been reached.");
+            throw new DukeException("Maximum number of tasks recorded has " +
+                    "been reached.");
         }
 
         tasks[taskCount] = t;
@@ -108,27 +119,46 @@ public class RCApp {
         }
     }
 
-    private static void markTask(String line) {
-        // extract digits from string to be converted into integer type
-        int markIndex = Integer.parseInt(line.replaceAll("[^0-9]", ""));
+    private static void markTask(String line) throws DukeException {
+        try {
+            // extract digits from string to be converted into integer type
+            int markIndex = Integer.parseInt(line.replaceAll("[^0-9]",
+                    "")) - indexOffset;
+            // checks if index is negative, greater than, or equal to taskCount
+            validateIndex(markIndex);
 
-        // use markIndex to mark task from Task[] as done
-        tasks[markIndex - indexOffset].markAsDone();
+            // use markIndex to mark task from Task[] as done
+            tasks[markIndex].markAsDone();
 
-        System.out.println("Good job! I'll mark this task as done:");
-        // display marked task
-        System.out.println(markIndex + "." + tasks[markIndex - indexOffset]);
+            System.out.println("Good job! I've marked this task as done:");
+            // display marked task
+            System.out.println((markIndex + indexOffset) + "." + tasks[markIndex]);
+        } catch (NumberFormatException error) {
+            throw new DukeException("Invalid task format. Use: mark <task_number>");
+        }
     }
 
-    private static void unmarkTask(String line) {
-        int unmarkIndex = Integer.parseInt(line.replaceAll("[^0-9]", ""));
+    private static void unmarkTask(String line) throws DukeException {
+        try {
+            int unmarkIndex = Integer.parseInt(line.replaceAll("[^0-9]",
+                    "")) - indexOffset;
+            validateIndex(unmarkIndex);
 
-        // use unmarkIndex to mark task from Task[] as not done
-        tasks[unmarkIndex - indexOffset].markAsNotDone();
+            // use unmarkIndex to mark task from Task[] as not done
+            tasks[unmarkIndex].markAsNotDone();
 
-        System.out.println("Noted, I've marked this task as not done yet:");
-        // display unmarked task
-        System.out.println(unmarkIndex + "." + tasks[unmarkIndex - indexOffset]);
+            System.out.println("Noted, I've marked this task as not done yet:");
+            // display marked task
+            System.out.println((unmarkIndex + indexOffset) + "." + tasks[unmarkIndex]);
+        } catch (NumberFormatException error) {
+            throw new DukeException("Use: unmark <task_number>");
+        }
+    }
+
+    private static void validateIndex(int index) throws DukeException {
+        if (index < 0 || index >= taskCount) {
+            throw new DukeException("Invalid task number.");
+        }
     }
 
     private static void determineTaskType(String line) {
