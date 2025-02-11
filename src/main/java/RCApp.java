@@ -85,7 +85,11 @@ public class RCApp {
         System.out.println("============================================");
     }
 
-    public static void addTask(Task t) {
+    public static void addTask(Task t) throws DukeException {
+        if (taskCount >= tasks.length) {
+            throw new DukeException("Maximum number of tasks recorded has been reached.");
+        }
+
         tasks[taskCount] = t;
         taskCount++;
         System.out.println("This task has been added: " +  "\n" + t);
@@ -168,7 +172,11 @@ public class RCApp {
 
         // create a new to-do instance
         ToDo toDo = new ToDo(description);
-        addTask(toDo);
+        try {
+            addTask(toDo);
+        } catch (DukeException error) {
+            System.out.println(error.getMessage());
+        }
     }
 
     private static void handleDeadline(String line) {
@@ -182,7 +190,11 @@ public class RCApp {
 
         // create a new Deadline instance
         Deadline deadline = new Deadline(description, dueDate);
-        addTask(deadline);
+        try {
+            addTask(deadline);
+        } catch (DukeException error) {
+            System.out.println(error.getMessage());
+        }
     }
 
     private static void handleEvent(String line) {
@@ -200,7 +212,11 @@ public class RCApp {
 
         // create a new Event instance
         Event event = new Event(description, start, end);
-        addTask(event);
+        try {
+            addTask(event);
+        } catch (DukeException error) {
+            System.out.println(error.getMessage());
+        }
     }
 
     public static void main(String[] args) {
