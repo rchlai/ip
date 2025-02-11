@@ -5,6 +5,8 @@ public class RCApp {
     static Scanner input = new Scanner(System.in);
     static Task[] tasks = new Task[100];
     static int taskCount = 0;
+    // offset is to be added to or subtracted from the index variable
+    static int indexOffset = 1;
 
     // global prefix constants
     static final String BY_PREFIX = "/by";
@@ -65,14 +67,14 @@ public class RCApp {
     }
 
     public static void printChatbotLogo() {
-        String logo =
+        final String LOGO =
                 "______________\n"
                         +"\\____  \\_  __ \\\n"
                         +"|    _/    \\ \\/\n"
                         +"|  |  \\     \\__\n"
                         +"|__|__/\\______/\n";
 
-        System.out.println("Hello from\n" + logo);
+        System.out.println("Hello from\n" + LOGO);
     }
 
     public static void printFarewellMessage() {
@@ -98,7 +100,7 @@ public class RCApp {
 
         for (int i = 0; i < taskCount; i++) {
             // displays as 1.[X] <description> and so on
-            System.out.println((i + 1) + "." + tasks[i]);
+            System.out.println((i + indexOffset) + "." + tasks[i]);
         }
     }
 
@@ -107,22 +109,22 @@ public class RCApp {
         int markIndex = Integer.parseInt(line.replaceAll("[^0-9]", ""));
 
         // use markIndex to mark task from Task[] as done
-        tasks[markIndex - 1].markAsDone();
+        tasks[markIndex - indexOffset].markAsDone();
 
         System.out.println("Good job! I'll mark this task as done:");
         // display marked task
-        System.out.println(markIndex + "." + tasks[markIndex - 1]);
+        System.out.println(markIndex + "." + tasks[markIndex - indexOffset]);
     }
 
     private static void unmarkTask(String line) {
         int unmarkIndex = Integer.parseInt(line.replaceAll("[^0-9]", ""));
 
         // use unmarkIndex to mark task from Task[] as not done
-        tasks[unmarkIndex - 1].markAsNotDone();
+        tasks[unmarkIndex - indexOffset].markAsNotDone();
 
         System.out.println("Noted, I've marked this task as not done yet:");
         // display unmarked task
-        System.out.println(unmarkIndex + "." + tasks[unmarkIndex - 1]);
+        System.out.println(unmarkIndex + "." + tasks[unmarkIndex - indexOffset]);
     }
 
     private static void determineTaskType(String line) {
@@ -165,8 +167,8 @@ public class RCApp {
         String description = line.replace(TO_DO_PREFIX, "").trim();
 
         // create a new to-do instance
-        ToDo td = new ToDo(description);
-        addTask(td);
+        ToDo toDo = new ToDo(description);
+        addTask(toDo);
     }
 
     private static void handleDeadline(String line) {
@@ -179,8 +181,8 @@ public class RCApp {
         String dueDate = line.substring(indexOfByPrefix).replace(BY_PREFIX, "").trim();
 
         // create a new Deadline instance
-        Deadline d = new Deadline(description, dueDate);
-        addTask(d);
+        Deadline deadline = new Deadline(description, dueDate);
+        addTask(deadline);
     }
 
     private static void handleEvent(String line) {
@@ -197,8 +199,8 @@ public class RCApp {
         String end = line.substring(indexOfToPrefix).replace(TO_PREFIX, "").trim();
 
         // create a new Event instance
-        Event e = new Event(description, start, end);
-        addTask(e);
+        Event event = new Event(description, start, end);
+        addTask(event);
     }
 
     public static void main(String[] args) {
