@@ -64,6 +64,7 @@ public class RCApp {
     public static void printWelcomeMessage() {
         System.out.println("Good day! I'm RC, your personal chatbot.");
         System.out.println("You need my assistance today?\n");
+        System.out.println("To exit, type 'bye'.");
     }
 
     public static void printChatbotLogo() {
