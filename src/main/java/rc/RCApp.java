@@ -2,6 +2,11 @@ package rc;
 
 import java.util.Scanner;
 
+import rc.task.Deadline;
+import rc.task.Event;
+import rc.task.Task;
+import rc.task.ToDo;
+
 public class RCApp {
     // global variables
     static Scanner input = new Scanner(System.in);
