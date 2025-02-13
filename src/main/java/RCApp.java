@@ -97,7 +97,8 @@ public class RCApp {
     }
 
     public static void addLineSeparator() {
-        System.out.println("============================================");
+        System.out.println("================================================" +
+                "=========================================");
     }
 
     public static void printErrorMessage(DukeException error) {
