@@ -25,7 +25,7 @@ public class RCApp {
             System.out.print("User says: ");
             String line = input.nextLine();
 
-            if (line.equals("list")) {
+            if (line.equalsIgnoreCase("list")) {
                 printAllTasks();
                 // print a line separator to avoid text clutter
                 addLineSeparator();
@@ -55,7 +55,7 @@ public class RCApp {
                 continue;
             }
             
-            if (line.equals("bye")) {
+            if (line.equalsIgnoreCase("bye")) {
                 // exit the while loop
                 break;
             }
