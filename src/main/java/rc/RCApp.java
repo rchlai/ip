@@ -1,3 +1,5 @@
+package rc;
+
 import java.util.Scanner;
 
 public class RCApp {
