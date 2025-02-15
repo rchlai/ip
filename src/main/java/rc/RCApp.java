@@ -16,9 +16,6 @@ public class RCApp {
     static int indexOffset = 1;
 
     // global prefix constants
-    static final String BY_PREFIX = "/by";
-    static final String FROM_PREFIX = "/from";
-    static final String TO_PREFIX = "/to";
     static final String TO_DO_PREFIX = "todo";
     static final String DEADLINE_PREFIX = "deadline";
     static final String EVENT_PREFIX = "event";
@@ -238,6 +235,8 @@ public class RCApp {
     }
 
     private static void handleDeadline(String line) throws DukeException {
+        final String BY_PREFIX = "/by";
+        
         // obtain index of "/by, " returns -1 if substring is not found
         int indexOfByPrefix = line.indexOf(BY_PREFIX);
 
@@ -269,6 +268,9 @@ public class RCApp {
     }
 
     private static void handleEvent(String line) throws DukeException {
+        final String FROM_PREFIX = "/from";
+        final String TO_PREFIX = "/to";
+
         // obtain index of "/from" from line
         int indexOfFromPrefix = line.indexOf(FROM_PREFIX);
         // obtain index of "/to"
