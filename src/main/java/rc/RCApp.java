@@ -1,5 +1,6 @@
 package rc;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import rc.task.Deadline;
@@ -236,7 +237,7 @@ public class RCApp {
 
     private static void handleDeadline(String line) throws DukeException {
         final String BY_PREFIX = "/by";
-        
+
         // obtain index of "/by, " returns -1 if substring is not found
         int indexOfByPrefix = line.indexOf(BY_PREFIX);
 
