@@ -1,4 +1,9 @@
-[T][X] f
-[T][X] meet with Robin
-[E][ ] project meeting (from: 3pm to: 4pm)
-[D][ ] submit CS homework (by: Monday 3pm)
+T | 1 | buy groceries
+D | 0 | submit homework | Monday
+E | 1 | meeting | 9am | 10am
+T | 0 | buy stationery
+E | 1 | group dinner | Sunday 5pm | 9pm
+D | 1 | buy book | Wed 3pm
+T | 1 | meet with Dad at Gadong
+D | 0 | submit road tax | Monday 10am
+E | 1 | company dinner | Friday 4pm | 6pm
