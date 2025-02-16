@@ -58,6 +58,17 @@ public class RCApp {
                 }
                 continue;
             }
+
+            if (line.startsWith("delete")) {
+                try {
+                    deleteTask(line);
+                } catch (DukeException error) {
+                    printErrorMessage(error);
+                } finally {
+                    addLineSeparator();
+                }
+                continue;
+            }
             
             if (line.equalsIgnoreCase("bye")) {
                 // exit the while loop
@@ -164,6 +175,25 @@ public class RCApp {
             System.out.println((unmarkIndex + indexOffset) + "." + tasks.get(unmarkIndex));
         } catch (NumberFormatException error) {
             throw new DukeException("Use: unmark <task_number>");
+        }
+    }
+
+    private static void deleteTask(String line) throws DukeException {
+        try {
+            int deleteIndex = Integer.parseInt(line.replaceAll("[^0-9]",
+                    "")) - indexOffset;
+            validateIndex(deleteIndex);
+
+            System.out.println("This task will be deleted:");
+            // display task before deletion
+            System.out.println(tasks.get(deleteIndex));
+
+            // remove task from arrayList
+            tasks.remove(tasks.get(deleteIndex));
+            // display number of tasks left
+            displayNumOfTasks();
+        } catch (NumberFormatException error) {
+            throw new DukeException("Use: delete <task_number>");
         }
     }
 
