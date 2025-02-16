@@ -1,6 +1,8 @@
 package rc;
 
 import java.util.ArrayList;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 import rc.task.Deadline;
