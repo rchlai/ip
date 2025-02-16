@@ -1,9 +1,3 @@
-T | 1 | buy groceries
-D | 0 | submit homework | Monday
-E | 1 | meeting | 9am | 10am
-T | 0 | buy stationery
-E | 1 | group dinner | Sunday 5pm | 9pm
-D | 1 | buy book | Wed 3pm
-T | 1 | meet with Dad at Gadong
-D | 0 | submit road tax | Monday 10am
-E | 1 | company dinner | Friday 4pm | 6pm
+T | 0 | meet with mom
+E | 0 | meeting | 6pm | 8pm
+D | 0 | submit report | Monday 5pm

@@ -352,20 +352,37 @@ public class RCApp {
 
     private static void printFileContents() throws FileNotFoundException {
         File file = new File(FILE_PATH);
-
-        // checking existing data file
-        if (!file.exists()) {
-            System.out.println("No existing data file found. Starting fresh...");
-            // No tasks to load if file was just created
-            return;
-        }
+        File parentFolder = file.getParentFile();
 
         try {
+            // Ensure the folder exists before trying to create file
+            if (parentFolder != null && !parentFolder.exists()) {
+                // create a new folder
+                if (parentFolder.mkdirs()) {
+                    System.out.println("Creating parent folder: "
+                            + parentFolder.getPath());
+                }
+                // no file to create if the folder was just created
+                return;
+            }
+
+            // checking existing data file
+            if (!file.exists()) {
+                if (file.createNewFile()) {
+                    System.out.println("No existing data file found. " +
+                            "Creating a new one at: " + FILE_PATH);
+                }
+                // No tasks to load if file was just created
+                return;
+            }
+
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 parseAndAddTask(line);
             }
+        } catch (IOException error) {
+            System.out.println(error.getMessage());
         } catch (DukeException error) {
             printErrorMessage(error);
         } finally {
