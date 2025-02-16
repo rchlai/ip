@@ -1,0 +1,4 @@
+[T][X] f
+[T][X] meet with Robin
+[E][ ] project meeting (from: 3pm to: 4pm)
+[D][ ] submit CS homework (by: Monday 3pm)

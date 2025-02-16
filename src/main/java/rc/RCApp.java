@@ -22,6 +22,8 @@ public class RCApp {
     static final String TO_DO_PREFIX = "todo";
     static final String DEADLINE_PREFIX = "deadline";
     static final String EVENT_PREFIX = "event";
+    // relative path of 'F:\repos\ip\rc.txt' directory
+    static final String FILE_PATH = "rc.txt";
 
     public static void chatWithBot() {
         printChatbotLogo();
@@ -43,6 +45,7 @@ public class RCApp {
             if (line.startsWith("mark")) {
                 try {
                     markTask(line);
+                    writeTaskToFile();
                 } catch (DukeException error) {
                     printErrorMessage(error);
                 } finally {
@@ -54,6 +57,7 @@ public class RCApp {
             if (line.startsWith("unmark")) {
                 try {
                     unmarkTask(line);
+                    writeTaskToFile();
                 } catch (DukeException error) {
                     printErrorMessage(error);
                 } finally {
@@ -70,6 +74,7 @@ public class RCApp {
             try {
                 // check Task type (i.e., to do, event, deadline)
                 determineTaskType(line);
+                writeTaskToFile();
                 // print number of tasks added
                 displayNumOfTasks();
             } catch (DukeException error) {
@@ -314,6 +319,22 @@ public class RCApp {
 
     private static String extractDescription(String line, int prefixIndex, String prefix) {
         return line.substring(0, prefixIndex).replace(prefix, "").trim();
+    }
+
+    public static void writeTaskToFile() {
+        try {
+            writeToFile();
+        } catch (IOException error) {
+            System.out.println(error.getMessage());
+        }
+    }
+
+    private static void writeToFile() throws IOException {
+        FileWriter writer = new FileWriter(FILE_PATH);
+        for (int i = 0; i < taskCount; i++) {
+            writer.write(String.valueOf(tasks[i]) + "\n");
+        }
+        writer.close();
     }
 
     public static void main(String[] args) {
