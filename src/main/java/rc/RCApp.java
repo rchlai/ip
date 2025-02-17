@@ -11,8 +11,7 @@ import rc.task.ToDo;
 public class RCApp {
     // global variables
     static Scanner input = new Scanner(System.in);
-    static Task[] tasks = new Task[100];
-    static int taskCount = 0;
+    static ArrayList<Task> tasks = new ArrayList<>();
     // offset is to be added to or subtracted from the index variable
     static int indexOffset = 1;
 
@@ -52,6 +51,17 @@ public class RCApp {
             if (line.startsWith("unmark")) {
                 try {
                     unmarkTask(line);
+                } catch (DukeException error) {
+                    printErrorMessage(error);
+                } finally {
+                    addLineSeparator();
+                }
+                continue;
+            }
+
+            if (line.startsWith("delete")) {
+                try {
+                    deleteTask(line);
                 } catch (DukeException error) {
                     printErrorMessage(error);
                 } finally {
@@ -111,27 +121,24 @@ public class RCApp {
         System.out.println(error.getMessage());
     }
 
-    public static void addTask(Task t) throws DukeException {
-        if (taskCount >= tasks.length) {
-            throw new DukeException("Maximum number of tasks recorded has " +
-                    "been reached.");
-        }
-
-        tasks[taskCount] = t;
-        taskCount++;
+    public static void addTask(Task t) {
+        // add task into arrayList
+        tasks.add(t);
+        // print added task
         System.out.println("This task has been added: " +  "\n" + t);
     }
 
     public static void displayNumOfTasks() {
-        System.out.println("You have " + taskCount + " task(s) in the list");
+        System.out.println("You have " + tasks.size() + " task(s) in the list");
     }
 
     public static void printAllTasks() {
         System.out.println("Here are the tasks in your list:");
 
-        for (int i = 0; i < taskCount; i++) {
-            // displays as 1.[X] <description> and so on
-            System.out.println((i + indexOffset) + "." + tasks[i]);
+        int index = 0;
+        for (Task task: tasks) {
+            System.out.println((index + indexOffset) + "." + task);
+            index++;
         }
     }
 
@@ -144,11 +151,11 @@ public class RCApp {
             validateIndex(markIndex);
 
             // use markIndex to mark task from Task[] as done
-            tasks[markIndex].markAsDone();
+            tasks.get(markIndex).markAsDone();
 
             System.out.println("Good job! I've marked this task as done:");
             // display marked task
-            System.out.println((markIndex + indexOffset) + "." + tasks[markIndex]);
+            System.out.println((markIndex + indexOffset) + "." + tasks.get(markIndex));
         } catch (NumberFormatException error) {
             throw new DukeException("Invalid mark format. Use: mark <task_number>");
         }
@@ -161,18 +168,37 @@ public class RCApp {
             validateIndex(unmarkIndex);
 
             // use unmarkIndex to mark task from Task[] as not done
-            tasks[unmarkIndex].markAsNotDone();
+            tasks.get(unmarkIndex).markAsNotDone();
 
             System.out.println("Noted, I've marked this task as not done yet:");
             // display marked task
-            System.out.println((unmarkIndex + indexOffset) + "." + tasks[unmarkIndex]);
+            System.out.println((unmarkIndex + indexOffset) + "." + tasks.get(unmarkIndex));
         } catch (NumberFormatException error) {
             throw new DukeException("Use: unmark <task_number>");
         }
     }
 
+    private static void deleteTask(String line) throws DukeException {
+        try {
+            int deleteIndex = Integer.parseInt(line.replaceAll("[^0-9]",
+                    "")) - indexOffset;
+            validateIndex(deleteIndex);
+
+            System.out.println("This task will be deleted:");
+            // display task before deletion
+            System.out.println(tasks.get(deleteIndex));
+
+            // remove task from arrayList
+            tasks.remove(tasks.get(deleteIndex));
+            // display number of tasks left
+            displayNumOfTasks();
+        } catch (NumberFormatException error) {
+            throw new DukeException("Use: delete <task_number>");
+        }
+    }
+
     private static void validateIndex(int index) throws DukeException {
-        if (index < 0 || index >= taskCount) {
+        if (index < 0 || index >= tasks.size()) {
             throw new DukeException("Invalid or unavailable task number.");
         }
     }
@@ -228,11 +254,8 @@ public class RCApp {
 
         // create a new to-do instance
         ToDo toDo = new ToDo(description);
-        try {
-            addTask(toDo);
-        } catch (DukeException error) {
-            printErrorMessage(error);
-        }
+        // add task instance into arrayList
+        addTask(toDo);
     }
 
     private static void handleDeadline(String line) throws DukeException {
@@ -261,11 +284,7 @@ public class RCApp {
 
         // create a new Deadline instance
         Deadline deadline = new Deadline(description, dueDate);
-        try {
-            addTask(deadline);
-        } catch (DukeException error) {
-            printErrorMessage(error);
-        }
+        addTask(deadline);
     }
 
     private static void handleEvent(String line) throws DukeException {
@@ -303,11 +322,7 @@ public class RCApp {
 
         // create a new Event instance
         Event event = new Event(description, start, end);
-        try {
-            addTask(event);
-        } catch (DukeException error) {
-            printErrorMessage(error);
-        }
+        addTask(event);
     }
 
     private static String extractDescription(String line, int prefixIndex, String prefix) {
