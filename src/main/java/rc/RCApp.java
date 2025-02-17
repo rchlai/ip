@@ -351,8 +351,8 @@ public class RCApp {
 
     private static void writeToFile() throws IOException {
         FileWriter writer = new FileWriter(FILE_PATH);
-        for (int i = 0; i < taskCount; i++) {
-            writer.write(tasks[i].toFileFormat() + "\n");
+        for (Task task: tasks) {
+            writer.write(task.toFileFormat() + "\n");
         }
         writer.close();
     }
@@ -370,7 +370,7 @@ public class RCApp {
         File parentFolder = file.getParentFile();
 
         try {
-            // Ensure the folder exists before trying to create file
+            // ensure the folder exists before trying to create file
             if (parentFolder != null && !parentFolder.exists()) {
                 // create a new folder
                 if (parentFolder.mkdirs()) {
@@ -414,11 +414,7 @@ public class RCApp {
         Task task = parseTaskFromFile(parts);
 
         // add task to tasks list
-        try {
-            addTask(task);
-        } catch (DukeException error) {
-            printErrorMessage(error);
-        }
+        addTask(task);
     }
 
     private static Task parseTaskFromFile(String[] parts) throws DukeException {
@@ -448,6 +444,7 @@ public class RCApp {
         if (isDone) {
             task.markAsDone();
         }
+
         return task;
     }
 
