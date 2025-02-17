@@ -1,6 +1,10 @@
 package rc;
 
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 import rc.task.Deadline;
@@ -19,10 +23,15 @@ public class RCApp {
     static final String TO_DO_PREFIX = "todo";
     static final String DEADLINE_PREFIX = "deadline";
     static final String EVENT_PREFIX = "event";
+    // relative path of 'F:\repos\ip\rc.txt' directory
+    static final String FILE_PATH = "rc.txt";
 
     public static void chatWithBot() {
         printChatbotLogo();
         printWelcomeMessage();
+
+        // load tasks from file when program starts
+        loadTasksFromFile();
 
         while (true) {
             // prompt user to write command
@@ -40,6 +49,7 @@ public class RCApp {
             if (line.startsWith("mark")) {
                 try {
                     markTask(line);
+                    writeTaskToFile();
                 } catch (DukeException error) {
                     printErrorMessage(error);
                 } finally {
@@ -51,6 +61,7 @@ public class RCApp {
             if (line.startsWith("unmark")) {
                 try {
                     unmarkTask(line);
+                    writeTaskToFile();
                 } catch (DukeException error) {
                     printErrorMessage(error);
                 } finally {
@@ -78,6 +89,7 @@ public class RCApp {
             try {
                 // check Task type (i.e., to do, event, deadline)
                 determineTaskType(line);
+                writeTaskToFile();
                 // print number of tasks added
                 displayNumOfTasks();
             } catch (DukeException error) {
@@ -93,8 +105,8 @@ public class RCApp {
 
     public static void printWelcomeMessage() {
         System.out.println("Good day! I'm RC, your personal chatbot.");
-        System.out.println("Do you need my assistance?\n");
-        System.out.println("To exit, type 'bye'.");
+        System.out.println("Do you need my assistance?");
+        System.out.println("To exit, type 'bye'.\n");
     }
 
     public static void printChatbotLogo() {
@@ -327,6 +339,116 @@ public class RCApp {
 
     private static String extractDescription(String line, int prefixIndex, String prefix) {
         return line.substring(0, prefixIndex).replace(prefix, "").trim();
+    }
+
+    public static void writeTaskToFile() {
+        try {
+            writeToFile();
+        } catch (IOException error) {
+            System.out.println(error.getMessage());
+        }
+    }
+
+    private static void writeToFile() throws IOException {
+        FileWriter writer = new FileWriter(FILE_PATH);
+        for (int i = 0; i < taskCount; i++) {
+            writer.write(tasks[i].toFileFormat() + "\n");
+        }
+        writer.close();
+    }
+
+    public static void loadTasksFromFile() {
+        try {
+            printFileContents();
+        } catch (FileNotFoundException error) {
+            System.out.println("File is not found.");
+        }
+    }
+
+    private static void printFileContents() throws FileNotFoundException {
+        File file = new File(FILE_PATH);
+        File parentFolder = file.getParentFile();
+
+        try {
+            // Ensure the folder exists before trying to create file
+            if (parentFolder != null && !parentFolder.exists()) {
+                // create a new folder
+                if (parentFolder.mkdirs()) {
+                    System.out.println("Creating parent folder: "
+                            + parentFolder.getPath());
+                }
+                // no file to create if the folder was just created
+                return;
+            }
+
+            // checking existing data file
+            if (!file.exists()) {
+                if (file.createNewFile()) {
+                    System.out.println("No existing data file found. " +
+                            "Creating a new one at: " + FILE_PATH);
+                }
+                // No tasks to load if file was just created
+                return;
+            }
+
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                parseAndAddTask(line);
+            }
+        } catch (IOException error) {
+            System.out.println(error.getMessage());
+        } catch (DukeException error) {
+            printErrorMessage(error);
+        } finally {
+            addLineSeparator();
+        }
+    }
+
+    private static void parseAndAddTask(String taskData) throws DukeException {
+        // split task string in file into an array of substrings
+        // e.g., todo | 0 | wake up => ["todo", "0", "wake up"]
+        String[] parts = taskData.split(" \\| ");
+
+        // parse each task from existing file
+        Task task = parseTaskFromFile(parts);
+
+        // add task to tasks list
+        try {
+            addTask(task);
+        } catch (DukeException error) {
+            printErrorMessage(error);
+        }
+    }
+
+    private static Task parseTaskFromFile(String[] parts) throws DukeException {
+        String taskType = parts[0];
+        boolean isDone = parts[1].equals("1");
+        String description = parts[2];
+
+        Task task;
+        switch (taskType) {
+        case "T":
+            task = new ToDo(description);
+            break;
+        case "D":
+            String dueDate = parts[3];
+            task = new Deadline(description, dueDate);
+            break;
+        case "E":
+            String start = parts[3];
+            String end = parts[4];
+            task = new Event(description, start, end);
+            break;
+        default:
+            throw new DukeException("Invalid task format.");
+        }
+
+        // mark task as done in program if isDone == 1 (true)
+        if (isDone) {
+            task.markAsDone();
+        }
+        return task;
     }
 
     public static void main(String[] args) {

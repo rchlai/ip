@@ -20,4 +20,9 @@ public class Deadline extends Task {
     public String toString() {
         return "[D]" + super.toString() + " (by: " + getBy() + ")";
     }
+
+    @Override
+    public String toFileFormat() {
+        return "D" + super.toFileFormat() + " | " + getBy();
+    }
 }
