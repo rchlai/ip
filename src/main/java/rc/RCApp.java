@@ -20,11 +20,11 @@ public class RCApp {
     static int indexOffset = 1;
 
     // global prefix constants
-    static final String TO_DO_PREFIX = "todo";
-    static final String DEADLINE_PREFIX = "deadline";
-    static final String EVENT_PREFIX = "event";
+    private static final String TO_DO_PREFIX = "todo";
+    private static final String DEADLINE_PREFIX = "deadline";
+    private static final String EVENT_PREFIX = "event";
     // relative path of 'F:\repos\ip\rc.txt' directory
-    static final String FILE_PATH = "rc.txt";
+    private static final String FILE_PATH = "rc.txt";
 
     public static void chatWithBot() {
         printChatbotLogo();
@@ -35,7 +35,7 @@ public class RCApp {
 
         while (true) {
             // prompt user to write command
-            System.out.print("User says: ");
+            print("User says: ");
             String line = input.nextLine();
 
             if (line.equalsIgnoreCase("list")) {
@@ -73,6 +73,7 @@ public class RCApp {
             if (line.startsWith("delete")) {
                 try {
                     deleteTask(line);
+                    writeTaskToFile();
                 } catch (DukeException error) {
                     printErrorMessage(error);
                 } finally {
@@ -103,10 +104,14 @@ public class RCApp {
         printFarewellMessage();
     }
 
+    public static void print(String str) {
+        System.out.println(str);
+    }
+
     public static void printWelcomeMessage() {
-        System.out.println("Good day! I'm RC, your personal chatbot.");
-        System.out.println("Do you need my assistance?");
-        System.out.println("To exit, type 'bye'.\n");
+        print("Good day! I'm RC, your personal chatbot.");
+        print("Do you need my assistance?");
+        print("To exit, type 'bye'.\n");
     }
 
     public static void printChatbotLogo() {
@@ -117,39 +122,39 @@ public class RCApp {
                         +"|  |  \\     \\__\n"
                         +"|__|__/\\______/\n";
 
-        System.out.println("Hello from\n" + LOGO);
+        print("Hello from\n" + LOGO);
     }
 
     public static void printFarewellMessage() {
-        System.out.println("Goodbye. Hope I satisfy your needs for today!");
+        print("Goodbye. Hope I satisfy your needs for today!");
     }
 
     public static void addLineSeparator() {
-        System.out.println("================================================" +
+        print("================================================" +
                 "=========================================");
     }
 
-    public static void printErrorMessage(DukeException error) {
-        System.out.println(error.getMessage());
+    public static void printErrorMessage(Exception error) {
+        print(error.getMessage());
     }
 
     public static void addTask(Task t) {
         // add task into arrayList
         tasks.add(t);
         // print added task
-        System.out.println("This task has been added: " +  "\n" + t);
+        print("This task has been added: " +  "\n" + t);
     }
 
     public static void displayNumOfTasks() {
-        System.out.println("You have " + tasks.size() + " task(s) in the list");
+        print("You have " + tasks.size() + " task(s) in the list");
     }
 
     public static void printAllTasks() {
-        System.out.println("Here are the tasks in your list:");
+        print("Here are the tasks in your list:");
 
         int index = 0;
         for (Task task: tasks) {
-            System.out.println((index + indexOffset) + "." + task);
+            print((index + indexOffset) + "." + task);
             index++;
         }
     }
@@ -157,17 +162,17 @@ public class RCApp {
     private static void markTask(String line) throws DukeException {
         try {
             // extract digits from string to be converted into integer type
-            int markIndex = Integer.parseInt(line.replaceAll("[^0-9]",
-                    "")) - indexOffset;
+            int markIndex = extractIndex(line);
             // checks if index is negative, greater than, or equal to taskCount
             validateIndex(markIndex);
 
+            Task markedTask = tasks.get(markIndex);
             // use markIndex to mark task from Task[] as done
-            tasks.get(markIndex).markAsDone();
+            markedTask.markAsDone();
 
-            System.out.println("Good job! I've marked this task as done:");
+            print("Good job! I've marked this task as done:");
             // display marked task
-            System.out.println((markIndex + indexOffset) + "." + tasks.get(markIndex));
+            print((markIndex + indexOffset) + "." + markedTask);
         } catch (NumberFormatException error) {
             throw new DukeException("Invalid mark format. Use: mark <task_number>");
         }
@@ -175,16 +180,16 @@ public class RCApp {
 
     private static void unmarkTask(String line) throws DukeException {
         try {
-            int unmarkIndex = Integer.parseInt(line.replaceAll("[^0-9]",
-                    "")) - indexOffset;
+            int unmarkIndex = extractIndex(line);
             validateIndex(unmarkIndex);
 
+            Task unmarkTask = tasks.get(unmarkIndex);
             // use unmarkIndex to mark task from Task[] as not done
-            tasks.get(unmarkIndex).markAsNotDone();
+            unmarkTask.markAsNotDone();
 
-            System.out.println("Noted, I've marked this task as not done yet:");
+            print("Noted, I've marked this task as not done yet:");
             // display marked task
-            System.out.println((unmarkIndex + indexOffset) + "." + tasks.get(unmarkIndex));
+            print((unmarkIndex + indexOffset) + "." + unmarkTask);
         } catch (NumberFormatException error) {
             throw new DukeException("Use: unmark <task_number>");
         }
@@ -192,21 +197,25 @@ public class RCApp {
 
     private static void deleteTask(String line) throws DukeException {
         try {
-            int deleteIndex = Integer.parseInt(line.replaceAll("[^0-9]",
-                    "")) - indexOffset;
+            int deleteIndex = extractIndex(line);
             validateIndex(deleteIndex);
 
-            System.out.println("This task will be deleted:");
+            Task deletedTask = tasks.get(deleteIndex);
             // display task before deletion
-            System.out.println(tasks.get(deleteIndex));
+            print("This task will be deleted:\n" + deletedTask);
 
             // remove task from arrayList
-            tasks.remove(tasks.get(deleteIndex));
+            tasks.remove(deletedTask);
             // display number of tasks left
             displayNumOfTasks();
         } catch (NumberFormatException error) {
             throw new DukeException("Use: delete <task_number>");
         }
+    }
+
+    private static int extractIndex(String line) {
+        return Integer.parseInt(line.replaceAll("[^0-9]",
+                "")) - indexOffset;
     }
 
     private static void validateIndex(int index) throws DukeException {
@@ -235,7 +244,7 @@ public class RCApp {
             break;
         default:
             throw new DukeException("Invalid task format. Please use " +
-                    "todo/event/deadline prefix.");
+                    "todo/event/deadline/mark/unmark/delete prefix.");
         }
     }
 
@@ -283,10 +292,10 @@ public class RCApp {
         }
 
         // extract "deadline <description>" from line and remove "deadline" prefix
-        String description = extractDescription(line, indexOfByPrefix, DEADLINE_PREFIX);
+        String description = extractString(line, 0, indexOfByPrefix,
+                DEADLINE_PREFIX);
         // extract "/by <due date>" from line and remove "/by" prefix
-        String dueDate = line.substring(indexOfByPrefix)
-                .replace(BY_PREFIX, "").trim();
+        String dueDate = extractLastString(line, indexOfByPrefix, BY_PREFIX);
 
         // checks if description or due date is not given
         if (description.isEmpty() || dueDate.isEmpty()) {
@@ -318,13 +327,13 @@ public class RCApp {
         }
 
         // extract "event <description>" from line and remove "event" prefix
-        String description = extractDescription(line, indexOfFromPrefix, EVENT_PREFIX);
+        String description = extractString(line, 0, indexOfFromPrefix,
+                EVENT_PREFIX);
         // extract "/from <start>" from line and remove "/from" prefix
-        String start = line.substring(indexOfFromPrefix, indexOfToPrefix)
-                .replace(FROM_PREFIX, "").trim();
+        String start = extractString(line, indexOfFromPrefix, indexOfToPrefix,
+                FROM_PREFIX);
         // extract "/to <end>" from line and remove "/to" prefix
-        String end = line.substring(indexOfToPrefix)
-                .replace(TO_PREFIX, "").trim();
+        String end = extractLastString(line, indexOfToPrefix, TO_PREFIX);
 
         // checks if description, start and end date are not given
         if (description.isEmpty() || start.isEmpty() || end.isEmpty()) {
@@ -337,23 +346,33 @@ public class RCApp {
         addTask(event);
     }
 
-    private static String extractDescription(String line, int prefixIndex, String prefix) {
-        return line.substring(0, prefixIndex).replace(prefix, "").trim();
+    private static String extractString(String line,
+                                        int firstIndex,
+                                        int lastIndex,
+                                        String prefix) {
+        return line.substring(firstIndex, lastIndex).replace(prefix, "")
+                .trim();
+    }
+
+    private static String extractLastString(String line, int index, String prefix) {
+        return line.substring(index).replace(prefix, "").trim();
     }
 
     public static void writeTaskToFile() {
         try {
             writeToFile();
         } catch (IOException error) {
-            System.out.println(error.getMessage());
+            printErrorMessage(error);
         }
     }
 
     private static void writeToFile() throws IOException {
         FileWriter writer = new FileWriter(FILE_PATH);
+        // write each task from arrayList to rc.txt in file format
         for (Task task: tasks) {
             writer.write(task.toFileFormat() + "\n");
         }
+        // complete the writing operation
         writer.close();
     }
 
@@ -361,7 +380,7 @@ public class RCApp {
         try {
             printFileContents();
         } catch (FileNotFoundException error) {
-            System.out.println("File is not found.");
+            print("File is not found.");
         }
     }
 
@@ -374,8 +393,7 @@ public class RCApp {
             if (parentFolder != null && !parentFolder.exists()) {
                 // create a new folder
                 if (parentFolder.mkdirs()) {
-                    System.out.println("Creating parent folder: "
-                            + parentFolder.getPath());
+                    print("Creating parent folder at: " + parentFolder.getPath());
                 }
                 // no file to create if the folder was just created
                 return;
@@ -384,7 +402,7 @@ public class RCApp {
             // checking existing data file
             if (!file.exists()) {
                 if (file.createNewFile()) {
-                    System.out.println("No existing data file found. " +
+                    print("No existing data file found. " +
                             "Creating a new one at: " + FILE_PATH);
                 }
                 // No tasks to load if file was just created
@@ -396,9 +414,7 @@ public class RCApp {
                 String line = scanner.nextLine();
                 parseAndAddTask(line);
             }
-        } catch (IOException error) {
-            System.out.println(error.getMessage());
-        } catch (DukeException error) {
+        } catch (DukeException | IOException error) {
             printErrorMessage(error);
         } finally {
             addLineSeparator();
@@ -407,7 +423,7 @@ public class RCApp {
 
     private static void parseAndAddTask(String taskData) throws DukeException {
         // split task string in file into an array of substrings
-        // e.g., todo | 0 | wake up => ["todo", "0", "wake up"]
+        // e.g., T | 0 | wake up => ["T", "0", "wake up"]
         String[] parts = taskData.split(" \\| ");
 
         // parse each task from existing file
@@ -418,22 +434,28 @@ public class RCApp {
     }
 
     private static Task parseTaskFromFile(String[] parts) throws DukeException {
-        String taskType = parts[0];
-        boolean isDone = parts[1].equals("1");
-        String description = parts[2];
+        String taskType = getPart(parts, 0);
+        boolean isDone = getPart(parts, 1).equals("1");
+        String description = getPart(parts, 2);
 
         Task task;
         switch (taskType) {
         case "T":
+            // to-do task format after splitting:
+            // ["T", "0/1", "<description>"]
             task = new ToDo(description);
             break;
         case "D":
-            String dueDate = parts[3];
+            // deadline task format after splitting:
+            // ["D", "0/1", "<description>", "<dueDate>"]
+            String dueDate = getPart(parts, 3);
             task = new Deadline(description, dueDate);
             break;
         case "E":
-            String start = parts[3];
-            String end = parts[4];
+            // event task format after splitting:
+            // ["E", "0/1", "<description>", "<start>", "<end>"]
+            String start = getPart(parts, 3);
+            String end = getPart(parts, 4);
             task = new Event(description, start, end);
             break;
         default:
@@ -446,6 +468,10 @@ public class RCApp {
         }
 
         return task;
+    }
+
+    private static String getPart(String[] parts, int index) {
+        return parts[index];
     }
 
     public static void main(String[] args) {

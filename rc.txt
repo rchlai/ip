@@ -1,3 +1,4 @@
-T | 0 | meet with mom
-E | 0 | meeting | 6pm | 8pm
-D | 0 | submit report | Monday 5pm
+T | 1 | meet with mom
+E | 1 | meeting | 6pm | 8pm
+D | 1 | submit report | Monday 5pm
+D | 0 | submit CS coding work | Tuesday 3pm
