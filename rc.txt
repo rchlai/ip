@@ -1,5 +1,5 @@
-E | 1 | meeting | 6pm | 8pm
 T | 1 | meet with dad
-E | 0 | dinner party | Sundat 3pm | 4pm
 D | 0 | project proposal | Friday 4pm
-T | 0 | finish homework
+T | 0 | meet with mom
+D | 0 | submit list | 7pm
+E | 0 | temple visit | Thursday 6am | 8am

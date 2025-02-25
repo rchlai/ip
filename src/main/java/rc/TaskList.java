@@ -8,7 +8,6 @@ import rc.task.Task;
 
 public class TaskList {
     public static ArrayList<Task> tasks = new ArrayList<>();
-//    public static int indexOffset = 1;
 
     public static void addTask(Task t) {
         // add task into arrayList

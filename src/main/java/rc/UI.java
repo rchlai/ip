@@ -26,13 +26,6 @@ public class UI {
     }
 
     public static void printChatbotLogo() {
-//        final String LOGO =
-//                "______________\n"
-//                        +"\\____  \\_  __ \\\n"
-//                        +"|    _/    \\ \\/\n"
-//                        +"|  |  \\     \\__\n"
-//                        +"|__|__/\\______/\n";
-
         print("Hello from\n" + LOGO);
     }
 

@@ -11,6 +11,7 @@ import rc.task.Task;
 import rc.task.ToDo;
 
 public class Storage {
+    // relative path of 'F:\repos\ip\rc.txt' directory
     private static final String FILE_PATH = "rc.txt";
 
     public static String getFilePath() {
