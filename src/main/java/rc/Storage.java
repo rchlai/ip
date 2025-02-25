@@ -2,7 +2,9 @@ package rc;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import rc.task.Deadline;
@@ -11,22 +13,40 @@ import rc.task.Task;
 import rc.task.ToDo;
 
 public class Storage {
-    // relative path of 'F:\repos\ip\rc.txt' directory
-    private static final String FILE_PATH = "rc.txt";
+    private final TaskList taskList;
+    private final String filePath;
 
-    public static String getFilePath() {
-        return FILE_PATH;
+//    private static final String FILE_PATH = "rc.txt";
+
+    public Storage(String path) {
+        filePath = path;
+        taskList = new TaskList();
     }
 
-    public static void writeTaskToFile() {
+//    public String getFilePath() {
+//        return FILE_PATH;
+//    }
+
+    public void writeTaskToFile() {
         try {
-            TaskList.writeToFile();
+            writeToFile();
         } catch (IOException error) {
             UI.printErrorMessage(error);
         }
     }
 
-    public static void loadTasksFromFile() {
+    public void writeToFile() throws IOException {
+        FileWriter writer = new FileWriter(filePath);
+        ArrayList<Task> tasks = taskList.getTaskList();
+        // write each task from arrayList to rc.txt in file format
+        for (Task task: tasks) {
+            writer.write(task.toFileFormat() + "\n");
+        }
+        // complete the writing operation
+        writer.close();
+    }
+
+    public void loadTasksFromFile() {
         try {
             printFileContents();
         } catch (FileNotFoundException error) {
@@ -34,8 +54,8 @@ public class Storage {
         }
     }
 
-    private static void printFileContents() throws FileNotFoundException {
-        File file = new File(getFilePath());
+    private void printFileContents() throws FileNotFoundException {
+        File file = new File(filePath);
         File parentFolder = file.getParentFile();
 
         try {
@@ -53,7 +73,7 @@ public class Storage {
             if (!file.exists()) {
                 if (file.createNewFile()) {
                     UI.print("No existing data file found. " +
-                            "Creating a new one at: " + getFilePath());
+                            "Creating a new one at: " + filePath);
                 }
                 // No tasks to load if file was just created
                 return;
@@ -71,7 +91,7 @@ public class Storage {
         }
     }
 
-    private static void parseAndAddTask(String taskData) throws DukeException {
+    private void parseAndAddTask(String taskData) throws DukeException {
         // split task string in file into an array of substrings
         // e.g., T | 0 | wake up => ["T", "0", "wake up"]
         String[] parts = taskData.split(" \\| ");
@@ -80,10 +100,10 @@ public class Storage {
         Task task = parseTaskFromFile(parts);
 
         // add task to tasks list
-        TaskList.addTask(task);
+        taskList.addTask(task);
     }
 
-    private static Task parseTaskFromFile(String[] parts) throws DukeException {
+    private Task parseTaskFromFile(String[] parts) throws DukeException {
         String taskType = getPart(parts, 0);
         boolean isDone = getPart(parts, 1).equals("1");
         String description = getPart(parts, 2);

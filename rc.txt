@@ -1,5 +1,3 @@
 T | 1 | meet with dad
 D | 0 | project proposal | Friday 4pm
 T | 0 | meet with mom
-D | 0 | submit list | 7pm
-E | 0 | temple visit | Thursday 6am | 8am

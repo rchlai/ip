@@ -14,6 +14,8 @@ import rc.task.ToDo;
 public class RCApp {
     // global variables
     static Scanner input = new Scanner(System.in);
+    private static Storage storage;
+    private static Parser parser;
 //    static ArrayList<Task> tasks = new ArrayList<>();
 //    static int indexOffset = 1;
 
@@ -22,12 +24,20 @@ public class RCApp {
 //    private static final String DEADLINE_PREFIX = "deadline";
 //    private static final String EVENT_PREFIX = "event";
 
-    public static void chatWithBot() {
+    // relative path of 'F:\repos\ip\rc.txt' directory
+    private static final String FILE_PATH = "rc.txt";
+
+    public RCApp() {
+        storage = new Storage(FILE_PATH);
+        parser = new Parser();
+    }
+
+    public void chatWithBot() {
         UI.printChatbotLogo();
         UI.printWelcomeMessage();
 
         // load tasks from file when program starts
-        Storage.loadTasksFromFile();
+        storage.loadTasksFromFile();
 
         while (true) {
             // prompt user to write command
@@ -45,7 +55,7 @@ public class RCApp {
             if (line.startsWith("mark")) {
                 try {
                     TaskList.markTask(line);
-                    Storage.writeTaskToFile();
+                    storage.writeTaskToFile();
                 } catch (DukeException error) {
                     UI.printErrorMessage(error);
                 } finally {
@@ -57,7 +67,7 @@ public class RCApp {
             if (line.startsWith("unmark")) {
                 try {
                     TaskList.unmarkTask(line);
-                    Storage.writeTaskToFile();
+                    storage.writeTaskToFile();
                 } catch (DukeException error) {
                     UI.printErrorMessage(error);
                 } finally {
@@ -69,7 +79,7 @@ public class RCApp {
             if (line.startsWith("delete")) {
                 try {
                     TaskList.deleteTask(line);
-                    Storage.writeTaskToFile();
+                    storage.writeTaskToFile();
                 } catch (DukeException error) {
                     UI.printErrorMessage(error);
                 } finally {
@@ -77,7 +87,7 @@ public class RCApp {
                 }
                 continue;
             }
-            
+
             if (line.equalsIgnoreCase("bye")) {
                 // exit the while loop
                 break;
@@ -85,8 +95,8 @@ public class RCApp {
 
             try {
                 // check Task type (i.e., to do, event, deadline)
-                Parser.determineTaskType(line);
-                Storage.writeTaskToFile();
+                parser.determineTaskType(line);
+                storage.writeTaskToFile();
                 // print number of tasks added
                 TaskList.displayNumOfTasks();
             } catch (DukeException error) {
@@ -471,6 +481,6 @@ public class RCApp {
 //    }
 
     public static void main(String[] args) {
-        chatWithBot();
+        new RCApp().chatWithBot();
     }
 }

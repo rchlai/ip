@@ -5,11 +5,17 @@ import rc.task.Event;
 import rc.task.ToDo;
 
 public class Parser {
+    protected static TaskList taskList;
+
     private static final String TO_DO_PREFIX = "todo";
     private static final String DEADLINE_PREFIX = "deadline";
     private static final String EVENT_PREFIX = "event";
 
-    public static void determineTaskType(String line) throws DukeException {
+    public Parser() {
+        taskList = new TaskList();
+    }
+
+    public void determineTaskType(String line) throws DukeException {
         // checks if user provides a line input
         if (line.isEmpty()) {
             throw new DukeException("Empty input. Please write down a task " +
@@ -33,7 +39,7 @@ public class Parser {
         }
     }
 
-    private static String extractTaskType(String line) {
+    private String extractTaskType(String line) {
         if (line.startsWith(TO_DO_PREFIX)) {
             return "todo";
         }
@@ -49,7 +55,7 @@ public class Parser {
         return "invalid";
     }
 
-    private static void handleToDo(String line) throws DukeException {
+    private void handleToDo(String line) throws DukeException {
         // remove "to-do" prefix from line and any leading & trailing whitespaces
         String description = line.replace(TO_DO_PREFIX, "").trim();
 
@@ -61,10 +67,10 @@ public class Parser {
         // create a new to-do instance
         ToDo toDo = new ToDo(description);
         // add task instance into arrayList
-        TaskList.addTask(toDo);
+        taskList.addTask(toDo);
     }
 
-    private static void handleDeadline(String line) throws DukeException {
+    private void handleDeadline(String line) throws DukeException {
         final String BY_PREFIX = "/by";
 
         // obtain index of "/by, " returns -1 if substring is not found
@@ -90,10 +96,10 @@ public class Parser {
 
         // create a new Deadline instance
         Deadline deadline = new Deadline(description, dueDate);
-        TaskList.addTask(deadline);
+        taskList.addTask(deadline);
     }
 
-    private static void handleEvent(String line) throws DukeException {
+    private void handleEvent(String line) throws DukeException {
         final String FROM_PREFIX = "/from";
         final String TO_PREFIX = "/to";
 
@@ -128,16 +134,16 @@ public class Parser {
 
         // create a new Event instance
         Event event = new Event(description, start, end);
-        TaskList.addTask(event);
+        taskList.addTask(event);
     }
 
-    private static String extractString(String line, int firstIndex,
+    private String extractString(String line, int firstIndex,
                                         int lastIndex, String prefix) {
         return line.substring(firstIndex, lastIndex).replace(prefix, "")
                 .trim();
     }
 
-    private static String extractLastString(String line, int index, String prefix) {
+    private String extractLastString(String line, int index, String prefix) {
         return line.substring(index).replace(prefix, "").trim();
     }
 }

@@ -7,9 +7,17 @@ import java.util.ArrayList;
 import rc.task.Task;
 
 public class TaskList {
-    public static ArrayList<Task> tasks = new ArrayList<>();
+    private static ArrayList<Task> tasks;
 
-    public static void addTask(Task t) {
+    public TaskList() {
+        tasks = new ArrayList<>();
+    }
+
+    public ArrayList<Task> getTaskList() {
+        return tasks;
+    }
+
+    public void addTask(Task t) {
         // add task into arrayList
         tasks.add(t);
         // print added task
@@ -95,13 +103,5 @@ public class TaskList {
         }
     }
 
-    public static void writeToFile() throws IOException {
-        FileWriter writer = new FileWriter(Storage.getFilePath());
-        // write each task from arrayList to rc.txt in file format
-        for (Task task: tasks) {
-            writer.write(task.toFileFormat() + "\n");
-        }
-        // complete the writing operation
-        writer.close();
-    }
+
 }
