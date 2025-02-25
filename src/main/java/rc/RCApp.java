@@ -1,6 +1,5 @@
 package rc;
 
-import java.util.ArrayList;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -15,69 +14,69 @@ import rc.task.ToDo;
 public class RCApp {
     // global variables
     static Scanner input = new Scanner(System.in);
-    static ArrayList<Task> tasks = new ArrayList<>();
+//    static ArrayList<Task> tasks = new ArrayList<>();
     // offset is to be added to or subtracted from the index variable
-    static int indexOffset = 1;
+//    static int indexOffset = 1;
 
     // global prefix constants
     private static final String TO_DO_PREFIX = "todo";
     private static final String DEADLINE_PREFIX = "deadline";
     private static final String EVENT_PREFIX = "event";
     // relative path of 'F:\repos\ip\rc.txt' directory
-    private static final String FILE_PATH = "rc.txt";
+//    private static final String FILE_PATH = "rc.txt";
 
     public static void chatWithBot() {
-        printChatbotLogo();
-        printWelcomeMessage();
+        UI.printChatbotLogo();
+        UI.printWelcomeMessage();
 
         // load tasks from file when program starts
-        loadTasksFromFile();
+        Storage.loadTasksFromFile();
 
         while (true) {
             // prompt user to write command
-            print("User says: ");
+            UI.printPrompt();
             String line = input.nextLine();
 
             if (line.equalsIgnoreCase("list")) {
-                printAllTasks();
-                // print a line separator to avoid text clutter
-                addLineSeparator();
+                TaskList.printAllTasks();
+                // print a line divider to avoid text clutter
+                UI.addDivider();
                 // skip to the next iteration
                 continue;
             }
 
             if (line.startsWith("mark")) {
                 try {
-                    markTask(line);
-                    writeTaskToFile();
+                    TaskList.markTask(line);
+                    Storage.writeTaskToFile();
                 } catch (DukeException error) {
-                    printErrorMessage(error);
+                    UI.printErrorMessage(error);
                 } finally {
-                    addLineSeparator();
+                    UI.addDivider();
                 }
                 continue;
             }
 
             if (line.startsWith("unmark")) {
                 try {
-                    unmarkTask(line);
-                    writeTaskToFile();
+                    TaskList.unmarkTask(line);
+                    Storage.writeTaskToFile();
                 } catch (DukeException error) {
-                    printErrorMessage(error);
+                    UI.printErrorMessage(error);
                 } finally {
-                    addLineSeparator();
+                    UI.addDivider();
                 }
                 continue;
             }
 
             if (line.startsWith("delete")) {
                 try {
-                    deleteTask(line);
-                    writeTaskToFile();
+                    TaskList.deleteTask(line);
+                    Storage.writeTaskToFile();
                 } catch (DukeException error) {
-                    printErrorMessage(error);
+                    UI.printErrorMessage(error);
                 } finally {
-                    addLineSeparator();
+                    UI.addDivider();
                 }
                 continue;
             }
@@ -90,139 +89,139 @@ public class RCApp {
             try {
                 // check Task type (i.e., to do, event, deadline)
                 determineTaskType(line);
-                writeTaskToFile();
+                Storage.writeTaskToFile();
                 // print number of tasks added
-                displayNumOfTasks();
+                TaskList.displayNumOfTasks();
             } catch (DukeException error) {
-                printErrorMessage(error);
+                UI.printErrorMessage(error);
             } finally {
-                addLineSeparator();
+                UI.addDivider();
             }
         }
 
-        addLineSeparator();
-        printFarewellMessage();
+        UI.addDivider();
+        UI.printFarewellMessage();
     }
 
-    public static void print(String str) {
-        System.out.println(str);
-    }
+//    public static void print(String str) {
+//        System.out.println(str);
+//    }
 
-    public static void printWelcomeMessage() {
-        print("Good day! I'm RC, your personal chatbot.");
-        print("Do you need my assistance?");
-        print("To exit, type 'bye'.\n");
-    }
+//    public static void printWelcomeMessage() {
+//        UI.print("Good day! I'm RC, your personal chatbot.");
+//        UI.print("Do you need my assistance?");
+//        UI.print("To exit, type 'bye'.\n");
+//    }
 
-    public static void printChatbotLogo() {
-        final String LOGO =
-                "______________\n"
-                        +"\\____  \\_  __ \\\n"
-                        +"|    _/    \\ \\/\n"
-                        +"|  |  \\     \\__\n"
-                        +"|__|__/\\______/\n";
+//    public static void printChatbotLogo() {
+//        final String LOGO =
+//                "______________\n"
+//                        +"\\____  \\_  __ \\\n"
+//                        +"|    _/    \\ \\/\n"
+//                        +"|  |  \\     \\__\n"
+//                        +"|__|__/\\______/\n";
+//
+//        UI.print("Hello from\n" + LOGO);
+//    }
 
-        print("Hello from\n" + LOGO);
-    }
+//    public static void printFarewellMessage() {
+//        UI.print("Goodbye. Hope I satisfy your needs for today!");
+//    }
 
-    public static void printFarewellMessage() {
-        print("Goodbye. Hope I satisfy your needs for today!");
-    }
+//    public static void addDivider() {
+//        print("================================================" +
+//                "=========================================");
+//    }
 
-    public static void addLineSeparator() {
-        print("================================================" +
-                "=========================================");
-    }
+//    public static void printErrorMessage(Exception error) {
+//        UI.print(error.getMessage());
+//    }
 
-    public static void printErrorMessage(Exception error) {
-        print(error.getMessage());
-    }
+//    public static void addTask(Task t) {
+//        // add task into arrayList
+//        tasks.add(t);
+//        // print added task
+//        print("This task has been added: " +  "\n" + t);
+//    }
 
-    public static void addTask(Task t) {
-        // add task into arrayList
-        tasks.add(t);
-        // print added task
-        print("This task has been added: " +  "\n" + t);
-    }
+//    public static void displayNumOfTasks() {
+//        print("You have " + tasks.size() + " task(s) in the list");
+//    }
 
-    public static void displayNumOfTasks() {
-        print("You have " + tasks.size() + " task(s) in the list");
-    }
+//    public static void printAllTasks() {
+//        print("Here are the tasks in your list:");
+//
+//        int index = 0;
+//        for (Task task: tasks) {
+//            print((index + indexOffset) + "." + task);
+//            index++;
+//        }
+//    }
 
-    public static void printAllTasks() {
-        print("Here are the tasks in your list:");
+//    private static void markTask(String line) throws DukeException {
+//        try {
+//            // extract digits from string to be converted into integer type
+//            int markIndex = extractIndex(line);
+//            // checks if index is negative, greater than, or equal to taskCount
+//            validateIndex(markIndex);
+//
+//            Task markedTask = tasks.get(markIndex);
+//            // use markIndex to mark task from Task[] as done
+//            markedTask.markAsDone();
+//
+//            UI.print("Good job! I've marked this task as done:");
+//            // display marked task
+//            UI.print((markIndex + indexOffset) + "." + markedTask);
+//        } catch (NumberFormatException error) {
+//            throw new DukeException("Invalid mark format. Use: mark <task_number>");
+//        }
+//    }
 
-        int index = 0;
-        for (Task task: tasks) {
-            print((index + indexOffset) + "." + task);
-            index++;
-        }
-    }
+//    private static void unmarkTask(String line) throws DukeException {
+//        try {
+//            int unmarkIndex = extractIndex(line);
+//            validateIndex(unmarkIndex);
+//
+//            Task unmarkTask = tasks.get(unmarkIndex);
+//            // use unmarkIndex to mark task from Task[] as not done
+//            unmarkTask.markAsNotDone();
+//
+//            UI.print("Noted, I've marked this task as not done yet:");
+//            // display marked task
+//            UI.print((unmarkIndex + indexOffset) + "." + unmarkTask);
+//        } catch (NumberFormatException error) {
+//            throw new DukeException("Use: unmark <task_number>");
+//        }
+//    }
 
-    private static void markTask(String line) throws DukeException {
-        try {
-            // extract digits from string to be converted into integer type
-            int markIndex = extractIndex(line);
-            // checks if index is negative, greater than, or equal to taskCount
-            validateIndex(markIndex);
+//    private static void deleteTask(String line) throws DukeException {
+//        try {
+//            int deleteIndex = extractIndex(line);
+//            validateIndex(deleteIndex);
+//
+//            Task deletedTask = tasks.get(deleteIndex);
+//            // display task before deletion
+//            UI.print("This task will be deleted:\n" + deletedTask);
+//
+//            // remove task from arrayList
+//            tasks.remove(deletedTask);
+//            // display number of tasks left
+//            displayNumOfTasks();
+//        } catch (NumberFormatException error) {
+//            throw new DukeException("Use: delete <task_number>");
+//        }
+//    }
 
-            Task markedTask = tasks.get(markIndex);
-            // use markIndex to mark task from Task[] as done
-            markedTask.markAsDone();
-
-            print("Good job! I've marked this task as done:");
-            // display marked task
-            print((markIndex + indexOffset) + "." + markedTask);
-        } catch (NumberFormatException error) {
-            throw new DukeException("Invalid mark format. Use: mark <task_number>");
-        }
-    }
-
-    private static void unmarkTask(String line) throws DukeException {
-        try {
-            int unmarkIndex = extractIndex(line);
-            validateIndex(unmarkIndex);
-
-            Task unmarkTask = tasks.get(unmarkIndex);
-            // use unmarkIndex to mark task from Task[] as not done
-            unmarkTask.markAsNotDone();
-
-            print("Noted, I've marked this task as not done yet:");
-            // display marked task
-            print((unmarkIndex + indexOffset) + "." + unmarkTask);
-        } catch (NumberFormatException error) {
-            throw new DukeException("Use: unmark <task_number>");
-        }
-    }
-
-    private static void deleteTask(String line) throws DukeException {
-        try {
-            int deleteIndex = extractIndex(line);
-            validateIndex(deleteIndex);
-
-            Task deletedTask = tasks.get(deleteIndex);
-            // display task before deletion
-            print("This task will be deleted:\n" + deletedTask);
-
-            // remove task from arrayList
-            tasks.remove(deletedTask);
-            // display number of tasks left
-            displayNumOfTasks();
-        } catch (NumberFormatException error) {
-            throw new DukeException("Use: delete <task_number>");
-        }
-    }
-
-    private static int extractIndex(String line) {
-        return Integer.parseInt(line.replaceAll("[^0-9]",
-                "")) - indexOffset;
-    }
-
-    private static void validateIndex(int index) throws DukeException {
-        if (index < 0 || index >= tasks.size()) {
-            throw new DukeException("Invalid or unavailable task number.");
-        }
-    }
+//    private static int extractIndex(String line) {
+//        return Integer.parseInt(line.replaceAll("[^0-9]",
+//                "")) - indexOffset;
+//    }
+//
+//    private static void validateIndex(int index) throws DukeException {
+//        if (index < 0 || index >= tasks.size()) {
+//            throw new DukeException("Invalid or unavailable task number.");
+//        }
+//    }
 
     private static void determineTaskType(String line) throws DukeException {
         // checks if user provides a line input
@@ -276,7 +275,7 @@ public class RCApp {
         // create a new to-do instance
         ToDo toDo = new ToDo(description);
         // add task instance into arrayList
-        addTask(toDo);
+        TaskList.addTask(toDo);
     }
 
     private static void handleDeadline(String line) throws DukeException {
@@ -305,7 +304,7 @@ public class RCApp {
 
         // create a new Deadline instance
         Deadline deadline = new Deadline(description, dueDate);
-        addTask(deadline);
+        TaskList.addTask(deadline);
     }
 
     private static void handleEvent(String line) throws DukeException {
@@ -343,7 +342,7 @@ public class RCApp {
 
         // create a new Event instance
         Event event = new Event(description, start, end);
-        addTask(event);
+        TaskList.addTask(event);
     }
 
     private static String extractString(String line,
@@ -358,121 +357,121 @@ public class RCApp {
         return line.substring(index).replace(prefix, "").trim();
     }
 
-    public static void writeTaskToFile() {
-        try {
-            writeToFile();
-        } catch (IOException error) {
-            printErrorMessage(error);
-        }
-    }
+//    public static void writeTaskToFile() {
+//        try {
+//            writeToFile();
+//        } catch (IOException error) {
+//            printErrorMessage(error);
+//        }
+//    }
 
-    private static void writeToFile() throws IOException {
-        FileWriter writer = new FileWriter(FILE_PATH);
-        // write each task from arrayList to rc.txt in file format
-        for (Task task: tasks) {
-            writer.write(task.toFileFormat() + "\n");
-        }
-        // complete the writing operation
-        writer.close();
-    }
+//    private static void writeToFile() throws IOException {
+//        FileWriter writer = new FileWriter(FILE_PATH);
+//        // write each task from arrayList to rc.txt in file format
+//        for (Task task: tasks) {
+//            writer.write(task.toFileFormat() + "\n");
+//        }
+//        // complete the writing operation
+//        writer.close();
+//    }
 
-    public static void loadTasksFromFile() {
-        try {
-            printFileContents();
-        } catch (FileNotFoundException error) {
-            print("File is not found.");
-        }
-    }
-
-    private static void printFileContents() throws FileNotFoundException {
-        File file = new File(FILE_PATH);
-        File parentFolder = file.getParentFile();
-
-        try {
-            // ensure the folder exists before trying to create file
-            if (parentFolder != null && !parentFolder.exists()) {
-                // create a new folder
-                if (parentFolder.mkdirs()) {
-                    print("Creating parent folder at: " + parentFolder.getPath());
-                }
-                // no file to create if the folder was just created
-                return;
-            }
-
-            // checking existing data file
-            if (!file.exists()) {
-                if (file.createNewFile()) {
-                    print("No existing data file found. " +
-                            "Creating a new one at: " + FILE_PATH);
-                }
-                // No tasks to load if file was just created
-                return;
-            }
-
-            Scanner scanner = new Scanner(file);
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                parseAndAddTask(line);
-            }
-        } catch (DukeException | IOException error) {
-            printErrorMessage(error);
-        } finally {
-            addLineSeparator();
-        }
-    }
-
-    private static void parseAndAddTask(String taskData) throws DukeException {
-        // split task string in file into an array of substrings
-        // e.g., T | 0 | wake up => ["T", "0", "wake up"]
-        String[] parts = taskData.split(" \\| ");
-
-        // parse each task from existing file
-        Task task = parseTaskFromFile(parts);
-
-        // add task to tasks list
-        addTask(task);
-    }
-
-    private static Task parseTaskFromFile(String[] parts) throws DukeException {
-        String taskType = getPart(parts, 0);
-        boolean isDone = getPart(parts, 1).equals("1");
-        String description = getPart(parts, 2);
-
-        Task task;
-        switch (taskType) {
-        case "T":
-            // to-do task format after splitting:
-            // ["T", "0/1", "<description>"]
-            task = new ToDo(description);
-            break;
-        case "D":
-            // deadline task format after splitting:
-            // ["D", "0/1", "<description>", "<dueDate>"]
-            String dueDate = getPart(parts, 3);
-            task = new Deadline(description, dueDate);
-            break;
-        case "E":
-            // event task format after splitting:
-            // ["E", "0/1", "<description>", "<start>", "<end>"]
-            String start = getPart(parts, 3);
-            String end = getPart(parts, 4);
-            task = new Event(description, start, end);
-            break;
-        default:
-            throw new DukeException("Invalid task format.");
-        }
-
-        // mark task as done in program if isDone == 1 (true)
-        if (isDone) {
-            task.markAsDone();
-        }
-
-        return task;
-    }
-
-    private static String getPart(String[] parts, int index) {
-        return parts[index];
-    }
+//    public static void loadTasksFromFile() {
+//        try {
+//            printFileContents();
+//        } catch (FileNotFoundException error) {
+//            UI.print("File is not found.");
+//        }
+//    }
+//
+//    private static void printFileContents() throws FileNotFoundException {
+//        File file = new File(FILE_PATH);
+//        File parentFolder = file.getParentFile();
+//
+//        try {
+//            // ensure the folder exists before trying to create file
+//            if (parentFolder != null && !parentFolder.exists()) {
+//                // create a new folder
+//                if (parentFolder.mkdirs()) {
+//                    UI.print("Creating parent folder at: " + parentFolder.getPath());
+//                }
+//                // no file to create if the folder was just created
+//                return;
+//            }
+//
+//            // checking existing data file
+//            if (!file.exists()) {
+//                if (file.createNewFile()) {
+//                    UI.print("No existing data file found. " +
+//                            "Creating a new one at: " + FILE_PATH);
+//                }
+//                // No tasks to load if file was just created
+//                return;
+//            }
+//
+//            Scanner scanner = new Scanner(file);
+//            while (scanner.hasNextLine()) {
+//                String line = scanner.nextLine();
+//                parseAndAddTask(line);
+//            }
+//        } catch (DukeException | IOException error) {
+//            UI.printErrorMessage(error);
+//        } finally {
+//            UI.addDivider();
+//        }
+//    }
+//
+//    private static void parseAndAddTask(String taskData) throws DukeException {
+//        // split task string in file into an array of substrings
+//        // e.g., T | 0 | wake up => ["T", "0", "wake up"]
+//        String[] parts = taskData.split(" \\| ");
+//
+//        // parse each task from existing file
+//        Task task = parseTaskFromFile(parts);
+//
+//        // add task to tasks list
+//        TaskList.addTask(task);
+//    }
+//
+//    private static Task parseTaskFromFile(String[] parts) throws DukeException {
+//        String taskType = getPart(parts, 0);
+//        boolean isDone = getPart(parts, 1).equals("1");
+//        String description = getPart(parts, 2);
+//
+//        Task task;
+//        switch (taskType) {
+//        case "T":
+//            // to-do task format after splitting:
+//            // ["T", "0/1", "<description>"]
+//            task = new ToDo(description);
+//            break;
+//        case "D":
+//            // deadline task format after splitting:
+//            // ["D", "0/1", "<description>", "<dueDate>"]
+//            String dueDate = getPart(parts, 3);
+//            task = new Deadline(description, dueDate);
+//            break;
+//        case "E":
+//            // event task format after splitting:
+//            // ["E", "0/1", "<description>", "<start>", "<end>"]
+//            String start = getPart(parts, 3);
+//            String end = getPart(parts, 4);
+//            task = new Event(description, start, end);
+//            break;
+//        default:
+//            throw new DukeException("Invalid task format.");
+//        }
+//
+//        // mark task as done in program if isDone == 1 (true)
+//        if (isDone) {
+//            task.markAsDone();
+//        }
+//
+//        return task;
+//    }
+//
+//    private static String getPart(String[] parts, int index) {
+//        return parts[index];
+//    }
 
     public static void main(String[] args) {
         chatWithBot();
