@@ -1,0 +1,16 @@
+package rc;
+
+public class UnmarkCommand extends Command {
+    private final String line;
+
+    public UnmarkCommand(String input) {
+        line = input;
+    }
+
+    @Override
+    public void execute(Storage storage) throws DukeException {
+        TaskList.unmarkTask(line);
+        storage.writeTaskToFile();
+        UI.addDivider();
+    }
+}

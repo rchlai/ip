@@ -1,5 +1,7 @@
 package rc;
 
+import rc.task.Task;
+
 public class UI {
     private static final int INDEX_OFFSET = 1;
 
@@ -45,5 +47,17 @@ public class UI {
 
     public static void printFarewellMessage() {
         print("Goodbye. Hope I satisfy your needs for today!");
+    }
+
+    public static void showIndexedTask(int index, Task task) {
+        print((index + UI.getOffset()) + "." + task);
+    }
+
+    public static void showAddedTask(Task task) {
+        print("This task has been added:\n" + task);
+    }
+
+    public static void showDeletedTask(Task task) {
+        print("This task has been deleted:\n" + task);
     }
 }

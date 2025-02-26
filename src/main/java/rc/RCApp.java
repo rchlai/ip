@@ -15,7 +15,7 @@ public class RCApp {
     // global variables
     static Scanner input = new Scanner(System.in);
     private static Storage storage;
-    private static Parser parser;
+//    private static Parser parser;
 //    static ArrayList<Task> tasks = new ArrayList<>();
 //    static int indexOffset = 1;
 
@@ -29,7 +29,7 @@ public class RCApp {
 
     public RCApp() {
         storage = new Storage(FILE_PATH);
-        parser = new Parser();
+//        parser = new Parser();
     }
 
     public void chatWithBot() {
@@ -39,6 +39,7 @@ public class RCApp {
         // load tasks from file when program starts
         storage.loadTasksFromFile();
 
+        /*
         while (true) {
             // prompt user to write command
             UI.printPrompt();
@@ -95,7 +96,7 @@ public class RCApp {
 
             try {
                 // check Task type (i.e., to do, event, deadline)
-                parser.determineTaskType(line);
+                Parser.determineTaskType(line);
                 storage.writeTaskToFile();
                 // print number of tasks added
                 TaskList.displayNumOfTasks();
@@ -108,6 +109,23 @@ public class RCApp {
 
         UI.addDivider();
         UI.printFarewellMessage();
+         */
+        boolean isRunning = true;
+        while (isRunning) {
+            UI.printPrompt();
+            String line = input.nextLine();
+
+            try {
+                Command command = Parser.parse(line);
+                command.execute(storage);
+
+                if (command.shouldExit()) {
+                    isRunning = false;
+                }
+            } catch (DukeException error) {
+                UI.printErrorMessage(error);
+            }
+        }
     }
 
 //    public static void print(String str) {

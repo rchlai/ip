@@ -17,11 +17,11 @@ public class TaskList {
         return tasks;
     }
 
-    public void addTask(Task t) {
+    public static void addTask(Task task) {
         // add task into arrayList
-        tasks.add(t);
+        tasks.add(task);
         // print added task
-        UI.print("This task has been added: " +  "\n" + t);
+        UI.showAddedTask(task);
     }
 
     public static void displayNumOfTasks() {
@@ -33,7 +33,7 @@ public class TaskList {
 
         int index = 0;
         for (Task task: tasks) {
-            UI.print((index + UI.getOffset()) + "." + task);
+            UI.showIndexedTask(index, task);
             index++;
         }
     }
@@ -51,7 +51,7 @@ public class TaskList {
 
             UI.print("Good job! I've marked this task as done:");
             // display marked task
-            UI.print((markIndex + UI.getOffset()) + "." + markedTask);
+            UI.showIndexedTask(markIndex, markedTask);
         } catch (NumberFormatException error) {
             throw new DukeException("Invalid mark format. Use: mark <task_number>");
         }
@@ -68,7 +68,7 @@ public class TaskList {
 
             UI.print("Noted, I've marked this task as not done yet:");
             // display marked task
-            UI.print((unmarkIndex + UI.getOffset()) + "." + unmarkTask);
+            UI.showIndexedTask(unmarkIndex, unmarkTask);
         } catch (NumberFormatException error) {
             throw new DukeException("Use: unmark <task_number>");
         }
@@ -81,7 +81,7 @@ public class TaskList {
 
             Task deletedTask = tasks.get(deleteIndex);
             // display task before deletion
-            UI.print("This task will be deleted:\n" + deletedTask);
+            UI.showDeletedTask(deletedTask);
 
             // remove task from arrayList
             tasks.remove(deletedTask);
@@ -102,6 +102,4 @@ public class TaskList {
             throw new DukeException("Invalid or unavailable task number.");
         }
     }
-
-
 }

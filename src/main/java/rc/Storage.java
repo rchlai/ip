@@ -16,16 +16,10 @@ public class Storage {
     private final TaskList taskList;
     private final String filePath;
 
-//    private static final String FILE_PATH = "rc.txt";
-
     public Storage(String path) {
-        filePath = path;
         taskList = new TaskList();
+        filePath = path;
     }
-
-//    public String getFilePath() {
-//        return FILE_PATH;
-//    }
 
     public void writeTaskToFile() {
         try {
