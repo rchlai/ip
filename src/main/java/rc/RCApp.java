@@ -3,6 +3,7 @@ package rc;
 import java.util.Scanner;
 
 import rc.command.Command;
+import rc.parser.Parser;
 
 public class RCApp {
     private final Scanner input = new Scanner(System.in);
