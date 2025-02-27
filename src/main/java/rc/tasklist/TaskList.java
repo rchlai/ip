@@ -2,7 +2,7 @@ package rc.tasklist;
 
 import java.util.ArrayList;
 
-import rc.DukeException;
+import rc.exception.DukeException;
 import rc.ui.UI;
 import rc.task.Task;
 

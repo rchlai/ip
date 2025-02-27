@@ -1,6 +1,6 @@
 package rc.parser;
 
-import rc.DukeException;
+import rc.exception.DukeException;
 import rc.command.AddTaskCommand;
 import rc.command.Command;
 import rc.command.DeleteCommand;

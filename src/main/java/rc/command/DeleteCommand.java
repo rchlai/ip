@@ -1,6 +1,6 @@
 package rc.command;
 
-import rc.DukeException;
+import rc.exception.DukeException;
 import rc.storage.Storage;
 import rc.tasklist.TaskList;
 import rc.ui.UI;

@@ -3,6 +3,7 @@ package rc;
 import java.util.Scanner;
 
 import rc.command.Command;
+import rc.exception.DukeException;
 import rc.parser.Parser;
 import rc.storage.Storage;
 import rc.ui.UI;

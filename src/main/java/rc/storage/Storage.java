@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import rc.DukeException;
+import rc.exception.DukeException;
 import rc.tasklist.TaskList;
 import rc.ui.UI;
 import rc.task.Deadline;
