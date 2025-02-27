@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import rc.DukeException;
-import rc.TaskList;
+import rc.tasklist.TaskList;
 import rc.UI;
 import rc.task.Deadline;
 import rc.task.Event;

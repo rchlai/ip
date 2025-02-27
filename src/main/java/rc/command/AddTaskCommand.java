@@ -2,7 +2,7 @@ package rc.command;
 
 import rc.DukeException;
 import rc.storage.Storage;
-import rc.TaskList;
+import rc.tasklist.TaskList;
 import rc.UI;
 import rc.task.Task;
 
