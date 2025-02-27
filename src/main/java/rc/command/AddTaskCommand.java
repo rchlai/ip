@@ -3,7 +3,7 @@ package rc.command;
 import rc.DukeException;
 import rc.storage.Storage;
 import rc.tasklist.TaskList;
-import rc.UI;
+import rc.ui.UI;
 import rc.task.Task;
 
 public class AddTaskCommand extends Command {

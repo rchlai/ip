@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 import rc.DukeException;
 import rc.tasklist.TaskList;
-import rc.UI;
+import rc.ui.UI;
 import rc.task.Deadline;
 import rc.task.Event;
 import rc.task.Task;

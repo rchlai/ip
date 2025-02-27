@@ -3,7 +3,7 @@ package rc.command;
 import rc.DukeException;
 import rc.storage.Storage;
 import rc.tasklist.TaskList;
-import rc.UI;
+import rc.ui.UI;
 
 public class DeleteCommand extends Command {
     private final String line;

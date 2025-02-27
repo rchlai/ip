@@ -3,7 +3,7 @@ package rc.tasklist;
 import java.util.ArrayList;
 
 import rc.DukeException;
-import rc.UI;
+import rc.ui.UI;
 import rc.task.Task;
 
 public class TaskList {

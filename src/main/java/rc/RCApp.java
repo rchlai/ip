@@ -5,6 +5,7 @@ import java.util.Scanner;
 import rc.command.Command;
 import rc.parser.Parser;
 import rc.storage.Storage;
+import rc.ui.UI;
 
 public class RCApp {
     private final Scanner input = new Scanner(System.in);
