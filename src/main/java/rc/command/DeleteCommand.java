@@ -1,4 +1,9 @@
-package rc;
+package rc.command;
+
+import rc.DukeException;
+import rc.Storage;
+import rc.TaskList;
+import rc.UI;
 
 public class DeleteCommand extends Command {
     private final String line;

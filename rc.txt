@@ -1,4 +1,4 @@
 D | 1 | project proposal | Friday 4pm
 T | 1 | meet with mom
 T | 0 | meet with dad
-D | 0 | project submission | Monday
+D | 0 | report | evening

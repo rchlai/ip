@@ -1,5 +1,9 @@
-package rc;
+package rc.command;
 
+import rc.DukeException;
+import rc.Storage;
+import rc.TaskList;
+import rc.UI;
 import rc.task.Task;
 
 public class AddTaskCommand extends Command {

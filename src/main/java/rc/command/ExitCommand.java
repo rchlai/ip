@@ -1,4 +1,7 @@
-package rc;
+package rc.command;
+
+import rc.Storage;
+import rc.UI;
 
 public class ExitCommand extends Command {
     @Override
