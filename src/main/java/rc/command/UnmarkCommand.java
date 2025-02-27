@@ -1,7 +1,7 @@
 package rc.command;
 
 import rc.DukeException;
-import rc.Storage;
+import rc.storage.Storage;
 import rc.TaskList;
 import rc.UI;
 

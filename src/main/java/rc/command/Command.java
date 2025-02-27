@@ -1,7 +1,7 @@
 package rc.command;
 
 import rc.DukeException;
-import rc.Storage;
+import rc.storage.Storage;
 
 public abstract class Command {
     public abstract void execute(Storage storage) throws DukeException;

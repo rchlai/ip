@@ -1,4 +1,4 @@
-package rc;
+package rc.storage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import rc.DukeException;
+import rc.TaskList;
+import rc.UI;
 import rc.task.Deadline;
 import rc.task.Event;
 import rc.task.Task;

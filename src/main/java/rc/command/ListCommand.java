@@ -1,6 +1,6 @@
 package rc.command;
 
-import rc.Storage;
+import rc.storage.Storage;
 import rc.TaskList;
 import rc.UI;
 
