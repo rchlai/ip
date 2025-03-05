@@ -1,5 +1,6 @@
 package rc.parser;
 
+import rc.command.FindCommand;
 import rc.exception.DukeException;
 import rc.command.AddTaskCommand;
 import rc.command.Command;
@@ -41,6 +42,10 @@ public class Parser {
 
         if (line.equalsIgnoreCase("bye")) {
             return new ExitCommand();
+        }
+
+        if (line.startsWith("find")) {
+            return new FindCommand(line);
         }
 
         return parseTaskCommand(line);
