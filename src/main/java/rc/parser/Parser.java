@@ -66,7 +66,7 @@ public class Parser {
         }
 
         throw new DukeException("Invalid task format. Please use todo/event/" +
-                "deadline/mark/unmark/delete prefix.");
+                "deadline/mark/unmark/delete/find prefix.");
     }
 
     private static ToDo handleToDo(String line) throws DukeException {

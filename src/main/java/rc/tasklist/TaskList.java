@@ -93,21 +93,41 @@ public class TaskList {
     }
 
     public static void findTask(String line) {
+        try {
+            String regex = getFindRegex(line);
+
+            UI.print("Here are the matching tasks in your list:");
+            boolean found = false;
+            for (int i = 0; i < tasks.size(); i++) {
+                Task task = tasks.get(i);
+                //  The matches method checks if the description contains
+                //  the whole word using the boundary markers (\\b).
+                if (task.getDescription().matches(".*" + regex + ".*")) {
+                    UI.showIndexedTask(i, task);
+                    found = true;
+                }
+            }
+            if (!found) {
+                UI.print("No matching tasks found.");
+            }
+        } catch (DukeException error) {
+            UI.printErrorMessage(error);
+        }
+    }
+
+    private static String getFindRegex(String line) throws DukeException {
         final String FIND_PREFIX = "find";
         String keyword = line.replace(FIND_PREFIX, "").trim();
 
-        UI.print("Here are the matching tasks in your list:");
-        boolean found = false;
-        for (int i = 0; i < tasks.size(); i++) {
-            Task task = tasks.get(i);
-            if (task.getDescription().contains(keyword)) {
-                UI.showIndexedTask(i, task);
-                found = true;
-            }
+        if (keyword.isEmpty()) {
+            throw new DukeException("Keyword is missing." +
+                    " Type in a keyword in this format: find <keyword>");
         }
-        if (!found) {
-            UI.print("No matching tasks found.");
-        }
+
+        // The regex \\b ensures that the keyword matches as a whole word
+        // and is not part of another word.
+        // For example, "me" would only match the word "me" and not "meet."
+        return "\\b" + keyword + "\\b";
     }
 
     private static int extractIndex(String line) {
