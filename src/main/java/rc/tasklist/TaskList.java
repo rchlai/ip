@@ -92,6 +92,20 @@ public class TaskList {
         }
     }
 
+    public static void findTask(String keyword) {
+        UI.print("Here are the matching tasks in your list:");
+        int index = 1;
+        for (Task task : tasks) {
+            if (task.getDescription().contains(keyword)) {
+                UI.showIndexedTask(index - 1, task);
+                index++;
+            }
+        }
+        if (index == 1) {
+            UI.print("No matching tasks found.");
+        }
+    }
+
     private static int extractIndex(String line) {
         return Integer.parseInt(line.replaceAll("[^0-9]",
                 "")) - UI.getOffset();
