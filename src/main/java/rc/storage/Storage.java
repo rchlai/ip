@@ -15,15 +15,31 @@ import rc.task.Event;
 import rc.task.Task;
 import rc.task.ToDo;
 
+/**
+ * Handles reading from and writing to a file to persist task data.
+ * Manages the creation of the file and directory if they do not exist,
+ * and provides methods to load tasks from the file and save tasks to the file.
+ */
 public class Storage {
     private final TaskList taskList;
     private final String filePath;
 
+    /**
+     * Constructs a new `Storage` object with the specified file path.
+     * Constructs a new `TaskList` instance
+     *
+     * @param path The file path where tasks are stored.
+     */
     public Storage(String path) {
         taskList = new TaskList();
         filePath = path;
     }
 
+    /**
+     * Writes all tasks from the task list to the file.
+     * <p>
+     * If an I/O error occurs, an error message will be displayed.
+     */
     public void writeTaskToFile() {
         try {
             writeToFile();
@@ -32,6 +48,12 @@ public class Storage {
         }
     }
 
+    /**
+     * Writes all tasks from the task list to the file in the
+     * file format specified in the Task class.
+     *
+     * @throws IOException If an I/O error occurs while writing to file.
+     */
     public void writeToFile() throws IOException {
         FileWriter writer = new FileWriter(filePath);
         ArrayList<Task> tasks = taskList.getTaskList();
@@ -43,6 +65,13 @@ public class Storage {
         writer.close();
     }
 
+    /**
+     * Loads tasks from the file into the task list.
+     * <p>
+     * If the file or directory does not exist, they are created.
+     * <p>
+     * Displays an error message if the file is not found.
+     */
     public void loadTasksFromFile() {
         try {
             printFileContents();
@@ -51,6 +80,15 @@ public class Storage {
         }
     }
 
+    /**
+     * Reads the contents of the file and parses each line into a task.
+     * <p>
+     * If the file or directory does not exist, they are created.
+     *
+     * @throws FileNotFoundException If the file does not exist and cannot be created.
+     * @throws DukeException To display its error message
+     * @throws IOException To catch I/O errors
+     */
     private void printFileContents() throws FileNotFoundException {
         File file = new File(filePath);
         File parentFolder = file.getParentFile();
@@ -88,6 +126,13 @@ public class Storage {
         }
     }
 
+    /**
+     * Parses a line from the text file into a task and adds it to
+     * the task list.
+     *
+     * @param taskData The line from the file representing a task.
+     * @throws DukeException If the task format is invalid.
+     */
     private void parseAndAddTask(String taskData) throws DukeException {
         // split task string in file into an array of substrings
         // e.g., T | 0 | wake up => ["T", "0", "wake up"]
@@ -100,6 +145,13 @@ public class Storage {
         taskList.addTask(task);
     }
 
+    /**
+     * Parses the parts of a task line into a `Task` object.
+     *
+     * @param parts The array of strings representing the task components.
+     * @return `Task` object that is parsed.
+     * @throws DukeException If the task type is invalid or the format is incorrect.
+     */
     private Task parseTaskFromFile(String[] parts) throws DukeException {
         String taskType = getPart(parts, 0);
         boolean isDone = getPart(parts, 1).equals("1");
@@ -137,6 +189,13 @@ public class Storage {
         return task;
     }
 
+    /**
+     * Retrieves a specific part from the array of task components.
+     *
+     * @param parts The array of strings representing the task components.
+     * @param index The index of the part to retrieve.
+     * @return The part at the specified index.
+     */
     private static String getPart(String[] parts, int index) {
         return parts[index];
     }
