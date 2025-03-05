@@ -92,16 +92,20 @@ public class TaskList {
         }
     }
 
-    public static void findTask(String keyword) {
+    public static void findTask(String line) {
+        final String FIND_PREFIX = "find";
+        String keyword = line.replace(FIND_PREFIX, "").trim();
+
         UI.print("Here are the matching tasks in your list:");
-        int index = 1;
-        for (Task task : tasks) {
+        boolean found = false;
+        for (int i = 0; i < tasks.size(); i++) {
+            Task task = tasks.get(i);
             if (task.getDescription().contains(keyword)) {
-                UI.showIndexedTask(index - 1, task);
-                index++;
+                UI.showIndexedTask(i, task);
+                found = true;
             }
         }
-        if (index == 1) {
+        if (!found) {
             UI.print("No matching tasks found.");
         }
     }

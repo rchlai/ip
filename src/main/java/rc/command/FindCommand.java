@@ -15,7 +15,6 @@ public class FindCommand extends Command {
     @Override
     public void execute(Storage storage) throws DukeException {
         TaskList.findTask(line);
-        storage.writeTaskToFile();
         UI.addDivider();
     }
 }
