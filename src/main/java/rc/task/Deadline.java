@@ -11,10 +11,10 @@ public class Deadline extends Task {
 
     /**
      * Constructs a `Deadline` task with the specified description and
-     * due date.
+     * due time.
      *
      * @param description The description of the `Deadline` task.
-     * @param due The due date of the task
+     * @param due The due time of the task
      */
     public Deadline(String description, String due) {
         super(description);
@@ -22,18 +22,18 @@ public class Deadline extends Task {
     }
 
     /**
-     * Returns the deadline due date.
+     * Returns the deadline due time.
      *
-     * @return due date
+     * @return the due time
      */
     public String getBy() {
         return by;
     }
 
     /**
-     * Sets the deadline due date.
+     * Sets the deadline due time.
      *
-     * @param due Due date of the deadline task
+     * @param due The due time of the deadline task
      */
     public void setBy(String due) {
         by = due;
@@ -43,7 +43,7 @@ public class Deadline extends Task {
      * Returns a string representation of the `Deadline` task.
      * <p>
      * The format includes the task type `[D]` followed by the task's status,
-     * description, and due date (e.g., `[D][X] Submit work (by: Monday 2pm)`).
+     * description, and due time (e.g., [D][X] Submit work (by: Monday 2pm)).
      * </p>
      *
      * @return A string representation of the `Deadline` task.
@@ -58,7 +58,7 @@ public class Deadline extends Task {
      * saving it to a file.
      * <p>
      * The format includes the task type `D` followed by the task's status,
-     * description, and due date (e.g., `D | 1 | Buy groceries | Monday 2pm`).
+     * description, and due time (e.g., `D | 1 | Buy groceries | Monday 2pm`).
      * </p>
      *
      * @return A string representation of the `Deadline` task in file format.

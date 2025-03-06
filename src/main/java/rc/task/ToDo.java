@@ -20,7 +20,7 @@ public class ToDo extends Task {
      * Returns a string representation of the `ToDo` task.
      * <p>
      * The format includes the task type `[T]` followed by the task's description
-     * and status (e.g., `[T][X] Buy groceries`).
+     * and status (e.g., [T][X] Buy groceries).
      * </p>
      *
      * @return A string representation of the `ToDo` task.
@@ -35,7 +35,7 @@ public class ToDo extends Task {
      * saving it to a file.
      * <p>
      * The format includes the task type `T` followed by the task's status and
-     * description (e.g., `T | 1 | Buy groceries`).
+     * description (e.g., T | 1 | Buy groceries).
      * </p>
      *
      * @return A string representation of the `ToDo` task in file format.
