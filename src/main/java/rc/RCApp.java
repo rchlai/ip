@@ -65,7 +65,6 @@ public class RCApp {
         }
     }
 
-
     /**
      * Serves as the entry point of the chatbot application.
      * Creates a new RCApp instance and uses its chatWithBot()
