@@ -1,4 +1,5 @@
 D | 1 | project proposal | Friday 4pm
-T | 1 | meet with mom
-T | 0 | meet with dad
+T | 0 | meet with mom
+T | 1 | meet with dad
 D | 0 | report | evening
+T | 0 | play with dog
