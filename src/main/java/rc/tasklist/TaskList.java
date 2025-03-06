@@ -137,6 +137,67 @@ public class TaskList {
     }
 
     /**
+     * Finds tasks in the task list that match a given keyword.
+     * <p>
+     * This method searches through the task list and prints all tasks whose
+     * descriptions contain the specified keyword as a whole word.
+     * <p>
+     * If no matching tasks are found, a message indicating no matches is
+     * displayed.
+     *
+     * @param line The user input containing the keyword to search for.
+     */
+    public static void findTask(String line) {
+        try {
+            String regex = getFindRegex(line);
+
+            UI.print("Here are the matching tasks in your list:");
+            boolean found = false;
+            for (int i = 0; i < tasks.size(); i++) {
+                Task task = tasks.get(i);
+                //  The matches method checks if the description contains
+                //  the whole word using the boundary markers (\\b).
+                if (task.getDescription().matches(".*" + regex + ".*")) {
+                    UI.showIndexedTask(i, task);
+                    found = true;
+                }
+            }
+            if (!found) {
+                UI.print("No matching tasks found.");
+            }
+        } catch (DukeException error) {
+            UI.printErrorMessage(error);
+        }
+    }
+
+    /**
+     * Extracts and processes the keyword from the user input for the `find` command.
+     * <p>
+     * This method removes the `find` prefix from the input, trims any extra spaces,
+     * and constructs a regex pattern to match the keyword as a whole word.
+     * <p>
+     * If the keyword is missing, it throws a `DukeException`.
+     *
+     * @param line The user input containing the `find` command and the keyword.
+     * @return A regex pattern that matches the keyword as a whole word.
+     * @throws DukeException If the keyword is missing or the input is invalid.
+     */
+    private static String getFindRegex(String line) throws DukeException {
+        final String FIND_PREFIX = "find";
+        String keyword = line.replace(FIND_PREFIX, "").trim();
+
+        if (keyword.isEmpty()) {
+            throw new DukeException("Keyword is missing." +
+                    " Type in a keyword in this format: find <keyword>");
+        }
+
+        // The regex \\b ensures that the keyword matches as a whole word
+        // and is not part of another word.
+        // For example, "me" would only match the word "me" and not "meet."
+        return "\\b" + keyword + "\\b";
+    }
+
+    /**
      * Extracts the task index from the user input.
      *
      * @param line The user input containing the task number.
