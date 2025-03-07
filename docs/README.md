@@ -52,11 +52,21 @@ You have 3 task(s) in the list
 User says:
 ```
 
-## Feature ABC
+### Adding a deadline task: `deadline`
 
-// Feature details
+Adds a deadline task to the task list.
 
+Format: `deadline DESCRIPTION /by DUE_DATE`
 
-## Feature XYZ
+Example: `deadline submit work /by Monday 9am`
 
-// Feature details
+Outcome:
+```
+User says:
+deadline submit work /by Monday 9am
+This task has been added:
+[D][ ] submit work (by: Monday 9am)
+You have 4 task(s) in the list
+=========================================================================================
+User says:
+```
