@@ -28,18 +28,28 @@ to add, list, and manage your tasks with ease.
 > - **Extraneous parameters** for commands that do not take in parameters (such as `list`, and `bye`) will generate an error.
     e.g. `list 123` is unacceptable.
 
-### Adding deadlines
+### Adding a task to do: `todo`
 
-// Describe the action and its outcome.
+Adds a to-do task to a task list stored in the chatbot.
 
-// Give examples of usage
+Format: `todo DESCRIPTION`
 
-Example: `keyword (optional arguments)`
+Example: `todo feed the dog`
 
-// A description of the expected outcome goes here
-
+Outcome:
 ```
-expected output
+This task has been added:
+[T][ ] add task
+This task has been added:
+[E][ ] Raymond Lai attend CS2113 lecture Friday 21 Feb 2025 (from: 4 to: 6pm)
+=========================================================================================
+User says:
+todo feed the dog
+This task has been added:
+[T][ ] feed the dog
+You have 3 task(s) in the list
+=========================================================================================
+User says:
 ```
 
 ## Feature ABC
