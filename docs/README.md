@@ -1,10 +1,12 @@
 # RCApp Chatbot User Guide
 
-// Update the title above to match the actual product name
-
 // Product screenshot goes here
 
-// Product intro goes here
+# Introduction
+
+Welcome to RCApp, a Command-Line Interface (CLI) chatbot designed to 
+help you record tasks efficiently. With RCApp, you can input commands 
+to add, list, and manage your tasks with ease.
 
 ## Adding deadlines
 
