@@ -56,7 +56,7 @@ User says:
 
 Adds a deadline task to the task list.
 
-Format: `deadline DESCRIPTION /by DUE_DATE`
+Format: `deadline DESCRIPTION /by DUE_TIME`
 
 Example: `deadline submit work /by Monday 9am`
 
@@ -67,6 +67,25 @@ deadline submit work /by Monday 9am
 This task has been added:
 [D][ ] submit work (by: Monday 9am)
 You have 4 task(s) in the list
+=========================================================================================
+User says:
+```
+
+### Adding an event task: `event`
+
+Adds an event task to the task list.
+
+Format: `event DESCRIPTION /from START_TIME /to END_TIME`
+
+Example: `event meeting /from Tuesday 11am /to 12 noon`
+
+Outcome:
+```
+User says:
+event meeting /from Tuesday 11am /to 12 noon
+This task has been added:
+[E][ ] meeting (from: Tuesday 11am to: 12 noon)
+You have 5 task(s) in the list
 =========================================================================================
 User says:
 ```
