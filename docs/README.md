@@ -125,3 +125,8 @@ Outcome:
 ```
 Coming soon...
 ```
+
+## Saving the data
+
+Task list data are saved in a text file (*.txt*) automatically after any command that changes the data. 
+There is no need to save manually.
