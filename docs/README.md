@@ -89,3 +89,39 @@ You have 5 task(s) in the list
 =========================================================================================
 User says:
 ```
+
+### Listing all tasks: `list`
+
+Prints out a list of all recorded tasks.
+
+Format: `list`
+
+Outcome:
+```
+User says:
+list
+Here are the tasks in your list:
+1.[T][ ] add task
+2.[E][ ] Raymond Lai attend CS2113 lecture Friday 21 Feb 2025 (from: 4 to: 6pm)
+3.[T][ ] feed the dog
+4.[D][ ] submit work (by: Monday 9am)
+5.[E][ ] meeting (from: Tuesday 11am to: 12 noon)
+=========================================================================================
+User says:
+```
+
+### Locating tasks: `find`
+
+Searches for tasks whose descriptions matches the specified keyword.
+
+Format: `find KEYWORD`
+
+- Only the task description is searched.
+- Only finds texts that matches the `KEYWORD` as a whole word. e.g. `find me` will not return `meeting` which contains the substring `me`.
+
+Example: `find task`
+
+Outcome:
+```
+Coming soon...
+```
