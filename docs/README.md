@@ -1,8 +1,10 @@
 # RCApp Chatbot User Guide
 
-// Product screenshot goes here
+## Product Screenshot
 
-# Introduction
+![Image](https://github.com/user-attachments/assets/952d3033-28df-44fa-83ed-d500cea69891)
+
+## Introduction
 
 Welcome to RCApp, a Command-Line Interface (CLI) chatbot designed to 
 help you record tasks efficiently. With RCApp, you can input commands 
