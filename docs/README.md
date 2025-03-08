@@ -126,6 +126,60 @@ Outcome:
 Coming soon...
 ```
 
+### Marking tasks: `mark`
+
+Marks a task as done based on the task list index given.
+
+Format: `mark INDEX`
+
+Example: `mark 1`
+
+Outcome:
+```
+User says:
+mark 1
+Good job! I've marked this task as done:
+1.[T][X] add task
+=========================================================================================
+User says:
+list
+Here are the tasks in your list:
+1.[T][X] add task
+2.[E][ ] Raymond Lai attend CS2113 lecture Friday 21 Feb 2025 (from: 4 to: 6pm)
+3.[T][ ] feed the dog
+4.[D][ ] submit work (by: Monday 9am)
+5.[E][ ] meeting (from: Tuesday 11am to: 12 noon)
+=========================================================================================
+User says:
+```
+
+### Unmarking tasks: `unmark`
+
+Marks a task as **not done** based on the task list index given.
+
+Format: `unmark INDEX`
+
+Example: `unmark 1`
+
+Outcome:
+```
+User says:
+unmark 1
+Noted, I've marked this task as not done yet:
+1.[T][ ] add task
+=========================================================================================
+User says:
+list
+Here are the tasks in your list:
+1.[T][ ] add task
+2.[E][ ] Raymond Lai attend CS2113 lecture Friday 21 Feb 2025 (from: 4 to: 6pm)
+3.[T][ ] feed the dog
+4.[D][ ] submit work (by: Monday 9am)
+5.[E][ ] meeting (from: Tuesday 11am to: 12 noon)
+=========================================================================================
+User says:
+```
+
 ## Saving the data
 
 Task list data are saved in a text file (*.txt*) automatically after any command that changes the data. 
