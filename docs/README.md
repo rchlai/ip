@@ -180,6 +180,33 @@ Here are the tasks in your list:
 User says:
 ```
 
+### Deleting a task: `delete`
+
+Removes a task from the task list based on the list index given.
+
+Format: `delete INDEX`
+
+Example: `delete 1`
+
+Outcome:
+```
+User says:
+delete 1
+This task will be deleted:
+[T][ ] add task
+You have 4 task(s) in the list
+=========================================================================================
+User says:
+list
+Here are the tasks in your list:
+1.[E][ ] Raymond Lai attend CS2113 lecture Friday 21 Feb 2025 (from: 4 to: 6pm)
+2.[T][ ] feed the dog
+3.[D][ ] submit work (by: Monday 9am)
+4.[E][ ] meeting (from: Tuesday 11am to: 12 noon)
+=========================================================================================
+User says:
+```
+
 ## Saving the data
 
 Task list data are saved in a text file (*.txt*) automatically after any command that changes the data. 
