@@ -207,6 +207,20 @@ Here are the tasks in your list:
 User says:
 ```
 
+### Exiting the program: `bye`
+
+Exits the chatbot CLI program.
+
+Format: `bye`
+
+Outcome:
+```
+User says:
+bye
+=========================================================================================
+Goodbye. Hope I satisfy your needs for today!
+```
+
 ## Saving the data
 
 Task list data are saved in a text file (*.txt*) automatically after any command that changes the data. 
