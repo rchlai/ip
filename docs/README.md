@@ -112,18 +112,40 @@ User says:
 
 ### Locating tasks: `find`
 
-Searches for tasks whose descriptions matches the specified keyword.
+Searches for tasks whose descriptions match the specified keyword.
+
+*Note*: a different program installed elsewhere was used to demonstrate the outcome.
 
 Format: `find KEYWORD`
 
 - Only the task description is searched.
-- Only finds texts that matches the `KEYWORD` as a whole word. e.g. `find me` will not return `meeting` which contains the substring `me`.
+- Only finds texts that match the `KEYWORD` as a whole word. e.g. `find me` will not return `meeting` which contains the substring `me`.
 
-Example: `find task`
+Example: `find me`, `find meet`
 
 Outcome:
 ```
-Coming soon...
+User says: 
+list
+Here are the tasks in your list:
+1.[D][X] project proposal (by: Friday 4pm)
+2.[T][ ] meet with mom
+3.[T][X] meet with dad
+4.[D][ ] report (by: evening)
+5.[T][ ] play with dog
+=========================================================================================
+User says: 
+find me
+Here are the matching tasks in your list:
+No matching tasks found.
+=========================================================================================
+User says: 
+find meet
+Here are the matching tasks in your list:
+2.[T][ ] meet with mom
+3.[T][X] meet with dad
+=========================================================================================
+User says: 
 ```
 
 ### Marking tasks: `mark`
